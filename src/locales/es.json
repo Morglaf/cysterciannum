@@ -1,0 +1,209 @@
+{
+  "menu": {
+    "home": "Inicio",
+    "learn": "Aprender",
+    "reference": "Referencia",
+    "leaderboard": "Clasificación",
+    "settings": "Ajustes",
+    "account": "Cuenta",
+    "logout": "Cerrar sesión"
+  },
+  "settings": {
+    "theme": "Tema",
+    "language": "Idioma",
+    "dark": "Oscuro",
+    "light": "Claro"
+  },
+  "account": {
+    "email": "Correo",
+    "updateEmail": "Actualizar correo",
+    "deleteAccount": "Eliminar cuenta",
+    "confirmDelete": "¿Estás seguro de que quieres eliminar tu cuenta?"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "loading": "Cargando...",
+    "error": "Se ha producido un error",
+    "success": "Operación exitosa",
+    "retry": "Reintentar",
+    "save": "Guardar",
+    "close": "Cerrar"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "email": "Correo",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "loginHere": "Inicia sesión aquí",
+    "registerHere": "Regístrate aquí"
+  },
+  "learn": {
+    "title": "Aprende números cistercienses",
+    "introduction": "Bienvenido al tutorial de números cistercienses",
+    "start": "Comenzar",
+    "practice": "Practicar",
+    "level": "Nivel {{level}}",
+    "score": "Puntuación: {{score}}",
+    "correct": "¡Correcto!",
+    "incorrect": "Incorrecto, inténtalo de nuevo",
+    "next": "Siguiente",
+    "lessons": {
+      "basics1": {
+        "title": "Unidades (1-9)",
+        "description": "Aprende los números del 1 al 9"
+      },
+      "basics2": {
+        "title": "Decenas (10-90)",
+        "description": "Aprende a leer y escribir decenas"
+      },
+      "basics3": {
+        "title": "Números de dos dígitos",
+        "description": "Combina unidades y decenas"
+      },
+      "hundreds": {
+        "title": "Centenas (100-900)",
+        "description": "Aprende a leer y escribir centenas"
+      },
+      "thousands": {
+        "title": "Millares (1000-9000)",
+        "description": "Aprende a leer y escribir millares"
+      },
+      "mastery": {
+        "title": "Dominio completo",
+        "description": "Practica con números del 1 al 9999"
+      }
+    },
+    "progress": {
+      "exercise": "Ejercicio {{current}}/{{total}}",
+      "levelComplete": "¡Nivel completado!",
+      "newLevel": "¡Nuevo nivel desbloqueado!",
+      "xpGained": "XP ganados: {{xp}}",
+      "totalXp": "XP total: {{total}}",
+      "nextLevel": "Siguiente nivel: {{next}}"
+    },
+    "exercises": {
+      "convertToArabic": "Convierte a números arábigos",
+      "convertToCistercian": "Convierte a números cistercienses",
+      "writeNumber": "Escribe el número",
+      "selectCorrectAnswer": "Selecciona la respuesta correcta",
+      "dragAndDrop": "Arrastra y suelta los símbolos en la posición correcta",
+      "drawNumber": "Dibuja el número {{number}}",
+      "whatNumber": "¿Qué número está representado?",
+      "buttons": {
+        "clear": "Borrar",
+        "validate": "Validar",
+        "next": "Siguiente",
+        "quit": "Salir"
+      }
+    },
+    "feedback": {
+      "almostThere": "¡Casi lo tienes!",
+      "keepGoing": "¡Sigue así!",
+      "excellent": "¡Excelente!",
+      "needMorePractice": "Necesitas más práctica",
+      "tryAgain": "Inténtalo de nuevo",
+      "hint": "Pista"
+    }
+  },
+  "reference": {
+    "title": "Guía de referencia",
+    "introduction": "Los números cistercienses son un sistema de notación numérica...",
+    "examples": "Ejemplos",
+    "rules": "Reglas",
+    "numbers": {
+      "1": {
+        "description": "Una línea horizontal simple en la parte superior"
+      },
+      "2": {
+        "description": "Una línea horizontal simple en la parte inferior"
+      },
+      "3": {
+        "description": "Una línea diagonal de arriba hacia abajo"
+      },
+      "4": {
+        "description": "Una línea diagonal de abajo hacia arriba"
+      },
+      "5": {
+        "description": "Combinación del 1 y el 4"
+      },
+      "6": {
+        "description": "Una línea vertical separada del eje central"
+      },
+      "7": {
+        "description": "Combinación del 1 y el 6"
+      },
+      "8": {
+        "description": "Combinación del 2 y el 6"
+      },
+      "9": {
+        "description": "Combinación del 1, 2 y 6"
+      }
+    },
+    "generator": {
+      "title": "Generador de números",
+      "input": "Introduce un número (0-9999)",
+      "number": "Número"
+    },
+    "positions": {
+      "units": "Unidades ({{value}}): Arriba a la derecha",
+      "tens": "Decenas ({{value}}): Arriba a la izquierda",
+      "hundreds": "Centenas ({{value}}): Abajo a la derecha",
+      "thousands": "Millares ({{value}}): Abajo a la izquierda"
+    },
+    "rules": {
+      "title": "Reglas de lectura",
+      "introduction": "Para leer un número cisterciano, sigue estos pasos:",
+      "step1": "1. El número se construye alrededor de una línea vertical central",
+      "step2": "2. Los dígitos se colocan en cuatro cuadrantes:",
+      "step3": "3. Cada dígito es una combinación de líneas simples",
+      "step4": "4. Las líneas se leen de la misma manera en cada cuadrante pero están orientadas de manera diferente",
+      "positions": {
+        "tens": "Arriba a la izquierda: Decenas (10-90)",
+        "units": "Arriba a la derecha: Unidades (1-9)",
+        "thousands": "Abajo a la izquierda: Millares (1000-9000)",
+        "hundreds": "Abajo a la derecha: Centenas (100-900)"
+      }
+    }
+  },
+  "leaderboard": {
+    "title": "Clasificación",
+    "tabs": {
+      "daily": "Hoy",
+      "weekly": "Esta semana",
+      "allTime": "General"
+    },
+    "columns": {
+      "rank": "Posición",
+      "player": "Jugador",
+      "xp": "XP",
+      "level": "Nivel",
+      "streak": "Racha"
+    },
+    "ranks": {
+      "1": "1º",
+      "2": "2º",
+      "3": "3º",
+      "other": "{{rank}}º"
+    },
+    "levels": {
+      "maitre": "Maestro",
+      "expert": "Experto",
+      "avance": "Avanzado",
+      "intermediaire": "Intermedio",
+      "apprenti": "Aprendiz",
+      "novice": "Novato"
+    },
+    "streakDays": "{{count}} días",
+    "loading": "Cargando clasificación...",
+    "error": "Error al cargar la clasificación",
+    "noData": "No hay datos disponibles",
+    "yourRank": "Tu posición",
+    "topPlayers": "Mejores jugadores",
+    "recentProgress": "Progreso reciente"
+  }
+} 

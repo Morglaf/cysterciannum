@@ -1,0 +1,226 @@
+{
+  "menu": {
+    "home": "Home",
+    "learn": "Learn",
+    "reference": "Reference",
+    "leaderboard": "Leaderboard",
+    "settings": "Settings",
+    "account": "Account",
+    "logout": "Logout"
+  },
+  "settings": {
+    "theme": "Theme",
+    "language": "Language",
+    "dark": "Dark",
+    "light": "Light"
+  },
+  "account": {
+    "email": "Email",
+    "updateEmail": "Update Email",
+    "deleteAccount": "Delete Account",
+    "confirmDelete": "Are you sure you want to delete your account?"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Operation successful",
+    "retry": "Retry",
+    "save": "Save",
+    "close": "Close"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "loginHere": "Login here",
+    "registerHere": "Register here",
+    "loginError": "Login error",
+    "registerError": "Registration error"
+  },
+  "home": {
+    "title": "CisterciaNum",
+    "subtitle": "Discover Cistercian numbers in a fun and interactive way",
+    "startLearning": "Start Learning",
+    "features": {
+      "progressiveLearning": {
+        "title": "Progressive Learning",
+        "description": "Learn at your own pace with structured lessons"
+      },
+      "interactiveExercises": {
+        "title": "Interactive Exercises",
+        "description": "Multiple choice and drawing exercises to master Cistercian numbers"
+      },
+      "progressTracking": {
+        "title": "Progress Tracking",
+        "description": "Track your progress and earn rewards"
+      }
+    }
+  },
+  "learn": {
+    "title": "Learn Cistercian Numbers",
+    "introduction": "Welcome to the Cistercian Numbers tutorial",
+    "start": "Start",
+    "practice": "Practice",
+    "level": "Level {{level}}",
+    "score": "Score: {{score}}",
+    "correct": "Correct!",
+    "incorrect": "Incorrect, try again",
+    "next": "Next",
+    "lessons": {
+      "basics1": {
+        "title": "Units (1-9)",
+        "description": "Learn numbers from 1 to 9"
+      },
+      "basics2": {
+        "title": "Tens (10-90)",
+        "description": "Learn to read and write tens"
+      },
+      "basics3": {
+        "title": "Two-digit Numbers",
+        "description": "Combine units and tens"
+      },
+      "hundreds": {
+        "title": "Hundreds (100-900)",
+        "description": "Learn to read and write hundreds"
+      },
+      "thousands": {
+        "title": "Thousands (1000-9000)",
+        "description": "Learn to read and write thousands"
+      },
+      "mastery": {
+        "title": "Complete Mastery",
+        "description": "Practice with numbers from 1 to 9999"
+      }
+    },
+    "progress": {
+      "exercise": "Exercise {{current}}/{{total}}",
+      "levelComplete": "Level complete!",
+      "newLevel": "New level unlocked",
+      "xpGained": "XP gained: {{xp}}",
+      "totalXp": "Total XP: {{total}}",
+      "nextLevel": "Next level: {{next}}"
+    },
+    "exercises": {
+      "convertToArabic": "Convert to Arabic numerals",
+      "convertToCistercian": "Convert to Cistercian numerals",
+      "writeNumber": "Write the number",
+      "selectCorrectAnswer": "Select the correct answer",
+      "dragAndDrop": "Drag and drop symbols to the correct position",
+      "drawNumber": "Draw the number {{number}}",
+      "whatNumber": "What number is represented?",
+      "buttons": {
+        "clear": "Clear",
+        "validate": "Validate",
+        "next": "Next",
+        "quit": "Quit"
+      }
+    },
+    "feedback": {
+      "almostThere": "Almost there!",
+      "keepGoing": "Keep going!",
+      "excellent": "Excellent!",
+      "needMorePractice": "Need more practice",
+      "tryAgain": "Try again"
+    }
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "tabs": {
+      "daily": "Today",
+      "weekly": "This Week",
+      "allTime": "All Time"
+    },
+    "columns": {
+      "rank": "Rank",
+      "player": "Player",
+      "xp": "XP",
+      "level": "Level",
+      "streak": "Streak"
+    },
+    "ranks": {
+      "1": "1st",
+      "2": "2nd",
+      "3": "3rd",
+      "other": "{{rank}}th"
+    },
+    "levels": {
+      "maitre": "Master",
+      "expert": "Expert",
+      "avance": "Advanced",
+      "intermediaire": "Intermediate",
+      "apprenti": "Apprentice",
+      "novice": "Novice"
+    },
+    "streakDays": "{{count}} days",
+    "loading": "Loading leaderboard...",
+    "error": "Error loading leaderboard",
+    "noData": "No data available",
+    "yourRank": "Your Rank",
+    "topPlayers": "Top Players",
+    "recentProgress": "Recent Progress"
+  },
+  "reference": {
+    "title": "Cistercian Numbers Reference",
+    "numbers": {
+      "1": {
+        "description": "A simple horizontal line at the top"
+      },
+      "2": {
+        "description": "A simple horizontal line at the bottom"
+      },
+      "3": {
+        "description": "A diagonal line from top to bottom"
+      },
+      "4": {
+        "description": "A diagonal line from bottom to top"
+      },
+      "5": {
+        "description": "Combination of 1 and 4"
+      },
+      "6": {
+        "description": "A vertical line spaced from the central axis"
+      },
+      "7": {
+        "description": "Combination of 1 and 6"
+      },
+      "8": {
+        "description": "Combination of 2 and 6"
+      },
+      "9": {
+        "description": "Combination of 1, 2 and 6"
+      }
+    },
+    "generator": {
+      "title": "Number Generator",
+      "input": "Enter a number (0-9999)",
+      "number": "Number"
+    },
+    "positions": {
+      "units": "Units ({{value}}): Top right",
+      "tens": "Tens ({{value}}): Top left",
+      "hundreds": "Hundreds ({{value}}): Bottom right",
+      "thousands": "Thousands ({{value}}): Bottom left"
+    },
+    "rules": {
+      "title": "Reading Rules",
+      "introduction": "To read a Cistercian number, follow these steps:",
+      "step1": "1. The number is built around a central vertical line",
+      "step2": "2. Digits are placed in four quadrants:",
+      "step3": "3. Each digit is a combination of simple lines",
+      "step4": "4. Lines are read the same way in each quadrant but are oriented differently",
+      "positions": {
+        "tens": "Top left: Tens (10-90)",
+        "units": "Top right: Units (1-9)",
+        "thousands": "Bottom left: Thousands (1000-9000)",
+        "hundreds": "Bottom right: Hundreds (100-900)"
+      }
+    }
+  }
+} 

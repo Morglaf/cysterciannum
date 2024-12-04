@@ -1,0 +1,209 @@
+{
+  "menu": {
+    "home": "Startseite",
+    "learn": "Lernen",
+    "reference": "Referenz",
+    "leaderboard": "Bestenliste",
+    "settings": "Einstellungen",
+    "account": "Konto",
+    "logout": "Abmelden"
+  },
+  "settings": {
+    "theme": "Design",
+    "language": "Sprache",
+    "dark": "Dunkel",
+    "light": "Hell"
+  },
+  "account": {
+    "email": "E-Mail",
+    "updateEmail": "E-Mail aktualisieren",
+    "deleteAccount": "Konto löschen",
+    "confirmDelete": "Sind Sie sicher, dass Sie Ihr Konto löschen möchten?"
+  },
+  "common": {
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "loading": "Wird geladen...",
+    "error": "Ein Fehler ist aufgetreten",
+    "success": "Operation erfolgreich",
+    "retry": "Wiederholen",
+    "save": "Speichern",
+    "close": "Schließen"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "forgotPassword": "Passwort vergessen?",
+    "alreadyHaveAccount": "Haben Sie bereits ein Konto?",
+    "dontHaveAccount": "Haben Sie noch kein Konto?",
+    "loginHere": "Hier anmelden",
+    "registerHere": "Hier registrieren"
+  },
+  "learn": {
+    "title": "Zisterziensische Zahlen lernen",
+    "introduction": "Willkommen zum Tutorial für zisterziensische Zahlen",
+    "start": "Starten",
+    "practice": "Üben",
+    "level": "Level {{level}}",
+    "score": "Punktzahl: {{score}}",
+    "correct": "Richtig!",
+    "incorrect": "Falsch, versuchen Sie es erneut",
+    "next": "Weiter",
+    "lessons": {
+      "basics1": {
+        "title": "Einheiten (1-9)",
+        "description": "Lernen Sie die Zahlen von 1 bis 9"
+      },
+      "basics2": {
+        "title": "Zehner (10-90)",
+        "description": "Lernen Sie, Zehnerzahlen zu lesen und zu schreiben"
+      },
+      "basics3": {
+        "title": "Zweistellige Zahlen",
+        "description": "Kombinieren Sie Einer und Zehner"
+      },
+      "hundreds": {
+        "title": "Hunderter (100-900)",
+        "description": "Lernen Sie, Hunderterzahlen zu lesen und zu schreiben"
+      },
+      "thousands": {
+        "title": "Tausender (1000-9000)",
+        "description": "Lernen Sie, Tausenderzahlen zu lesen und zu schreiben"
+      },
+      "mastery": {
+        "title": "Vollständige Beherrschung",
+        "description": "Üben Sie mit Zahlen von 1 bis 9999"
+      }
+    },
+    "progress": {
+      "exercise": "Übung {{current}}/{{total}}",
+      "levelComplete": "Level abgeschlossen!",
+      "newLevel": "Neues Level freigeschaltet!",
+      "xpGained": "XP erhalten: {{xp}}",
+      "totalXp": "Gesamt-XP: {{total}}",
+      "nextLevel": "Nächstes Level: {{next}}"
+    },
+    "exercises": {
+      "convertToArabic": "In arabische Zahlen umwandeln",
+      "convertToCistercian": "In zisterziensische Zahlen umwandeln",
+      "writeNumber": "Schreiben Sie die Zahl",
+      "selectCorrectAnswer": "Wählen Sie die richtige Antwort",
+      "dragAndDrop": "Ziehen Sie die Symbole an die richtige Position",
+      "drawNumber": "Zeichnen Sie die Zahl {{number}}",
+      "whatNumber": "Welche Zahl ist dargestellt?",
+      "buttons": {
+        "clear": "Löschen",
+        "validate": "Überprüfen",
+        "next": "Weiter",
+        "quit": "Beenden"
+      }
+    },
+    "feedback": {
+      "almostThere": "Fast geschafft!",
+      "keepGoing": "Weiter so!",
+      "excellent": "Ausgezeichnet!",
+      "needMorePractice": "Mehr Übung erforderlich",
+      "tryAgain": "Versuchen Sie es erneut",
+      "hint": "Tipp"
+    }
+  },
+  "reference": {
+    "title": "Referenzhandbuch",
+    "introduction": "Zisterziensische Zahlen sind ein numerisches Notationssystem...",
+    "examples": "Beispiele",
+    "rules": "Regeln",
+    "numbers": {
+      "1": {
+        "description": "Eine einfache horizontale Linie oben"
+      },
+      "2": {
+        "description": "Eine einfache horizontale Linie unten"
+      },
+      "3": {
+        "description": "Eine diagonale Linie von oben nach unten"
+      },
+      "4": {
+        "description": "Eine diagonale Linie von unten nach oben"
+      },
+      "5": {
+        "description": "Kombination aus 1 und 4"
+      },
+      "6": {
+        "description": "Eine vertikale Linie mit Abstand zur Mittelachse"
+      },
+      "7": {
+        "description": "Kombination aus 1 und 6"
+      },
+      "8": {
+        "description": "Kombination aus 2 und 6"
+      },
+      "9": {
+        "description": "Kombination aus 1, 2 und 6"
+      }
+    },
+    "generator": {
+      "title": "Zahlengenerator",
+      "input": "Geben Sie eine Zahl ein (0-9999)",
+      "number": "Zahl"
+    },
+    "positions": {
+      "units": "Einer ({{value}}): Oben rechts",
+      "tens": "Zehner ({{value}}): Oben links",
+      "hundreds": "Hunderter ({{value}}): Unten rechts",
+      "thousands": "Tausender ({{value}}): Unten links"
+    },
+    "rules": {
+      "title": "Leseregeln",
+      "introduction": "Um eine zisterziensische Zahl zu lesen, folgen Sie diesen Schritten:",
+      "step1": "1. Die Zahl wird um eine zentrale vertikale Linie herum aufgebaut",
+      "step2": "2. Die Ziffern werden in vier Quadranten platziert:",
+      "step3": "3. Jede Ziffer ist eine Kombination aus einfachen Linien",
+      "step4": "4. Die Linien werden in jedem Quadranten gleich gelesen, sind aber unterschiedlich orientiert",
+      "positions": {
+        "tens": "Oben links: Zehner (10-90)",
+        "units": "Oben rechts: Einer (1-9)",
+        "thousands": "Unten links: Tausender (1000-9000)",
+        "hundreds": "Unten rechts: Hunderter (100-900)"
+      }
+    }
+  },
+  "leaderboard": {
+    "title": "Bestenliste",
+    "tabs": {
+      "daily": "Heute",
+      "weekly": "Diese Woche",
+      "allTime": "Gesamt"
+    },
+    "columns": {
+      "rank": "Rang",
+      "player": "Spieler",
+      "xp": "XP",
+      "level": "Level",
+      "streak": "Serie"
+    },
+    "ranks": {
+      "1": "1.",
+      "2": "2.",
+      "3": "3.",
+      "other": "{{rank}}."
+    },
+    "levels": {
+      "maitre": "Meister",
+      "expert": "Experte",
+      "avance": "Fortgeschritten",
+      "intermediaire": "Mittelstufe",
+      "apprenti": "Lehrling",
+      "novice": "Anfänger"
+    },
+    "streakDays": "{{count}} Tage",
+    "loading": "Bestenliste wird geladen...",
+    "error": "Fehler beim Laden der Bestenliste",
+    "noData": "Keine Daten verfügbar",
+    "yourRank": "Ihr Rang",
+    "topPlayers": "Beste Spieler",
+    "recentProgress": "Aktuelle Fortschritte"
+  }
+} 

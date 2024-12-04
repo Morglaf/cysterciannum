@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  username      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  progress      Progress?
+  achievements  Achievement[]
+  completedLessons CompletedLesson[]
+}
+
+model Progress {
+  id            String    @id @default(uuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id])
+  xp            Int       @default(0)
+  level         String    @default("Novice")
+  streakDays    Int       @default(0)
+  lastLoginDate DateTime  @default(now())
+  perfectExercises Int    @default(0)
+}
+
+model Achievement {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  type        String
+  unlockedAt  DateTime  @default(now())
+
+  @@unique([userId, type])
+}
+
+model CompletedLesson {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  lessonId  String
+  completedAt DateTime @default(now())
+
+  @@unique([userId, lessonId])
+}
+
+model Session {
+  id        String    @id @default(uuid())
+  token     String    @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+} 
