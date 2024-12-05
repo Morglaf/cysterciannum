@@ -39,10 +39,9 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 
 function AppContent() {
   const { user } = useAuth();
-  const basename = import.meta.env.DEV ? '/' : __BASE_URL__;
 
   return (
-    <Router basename={basename}>
+    <Router>
       <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
         {user && <Navigation />}

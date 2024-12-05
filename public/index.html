@@ -2,25 +2,10 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="monk-icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="
-      default-src 'self' https://cysterciannum-api.onrender.com;
-      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://morglaf.github.io https://*.github.io;
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      img-src 'self' data: https: blob:;
-      font-src 'self' data: https://fonts.gstatic.com;
-      connect-src 'self' https://cysterciannum-api.onrender.com ws: wss:;
-      worker-src 'self' blob:;
-      manifest-src 'self';
-      base-uri 'self';
-      form-action 'self';
-      object-src 'none';">
-    <title>CisterciaNum - Apprenez les chiffres cisterciens</title>
-    <script>
-      window.global = window;
-      window.process = { env: { NODE_ENV: 'production' } };
-    </script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cysterciannum-api.onrender.com; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://cysterciannum-api.onrender.com;">
+    <title>Cystercian Numbers</title>
   </head>
   <body>
     <div id="root"></div>
