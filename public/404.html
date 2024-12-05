@@ -4,19 +4,22 @@
   <meta charset="utf-8">
   <title>Cystercian Numbers</title>
   <script type="text/javascript">
-    // Redirection vers la page d'accueil avec le hash
-    var pathSegmentsToKeep = 1;
+    // Redirection vers la page d'accueil
+    var segmentCount = 1;
     var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/#' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') +
-      (l.search ? '?' + l.search.slice(1) : '') +
-      l.hash
-    );
+    var repo = "/cysterciannum";
+    
+    // Construire l'URL de redirection
+    var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + repo + '/#' + 
+      l.pathname.slice(repo.length).split('/').slice(segmentCount).join('/') +
+      (l.search ? l.search : '') +
+      (l.hash ? l.hash : '');
+    
+    // Rediriger
+    window.location.replace(redirectUrl);
   </script>
 </head>
 <body>
-  Redirection...
+  Redirection vers la page d'accueil...
 </body>
 </html> 
