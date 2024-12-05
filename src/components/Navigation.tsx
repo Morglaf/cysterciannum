@@ -1,156 +1,176 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   AppBar,
   Toolbar,
-  Typography,
-  Button,
-  Box,
   IconButton,
-  LinearProgress,
+  Menu,
+  MenuItem,
+  Box,
   Tooltip,
-  useTheme
+  Chip,
 } from '@mui/material';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from './auth/AuthProvider';
-import { useTheme as useAppTheme } from '../utils/ThemeContext';
-import { userProgressService } from '../services/userProgress';
+import {
+  Home,
+  School,
+  MenuBook,
+  EmojiEvents,
+  Settings,
+  Language as LanguageIcon,
+  Brightness4 as DarkIcon,
+  Brightness7 as LightIcon,
+  Logout,
+} from '@mui/icons-material';
+import { useTheme } from '../utils/ThemeContext';
+import { useAuth } from '../components/auth/AuthProvider';
+import MonkIcon from './MonkIcon';
+import { eventEmitter, EVENTS } from '../services/events';
 
-const Navigation: React.FC = () => {
-  const { t } = useTranslation();
+const languages = [
+  { code: 'fr', label: 'Français' },
+  { code: 'en', label: 'English' },
+  { code: 'es', label: 'Español' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'it', label: 'Italiano' },
+];
+
+const Navigation = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { t, i18n } = useTranslation();
+  const { isDarkMode, toggleTheme } = useTheme();
   const { logout } = useAuth();
-  const theme = useTheme();
-  const { isDarkMode, toggleTheme } = useAppTheme();
-  const [xp, setXp] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [languageMenu, setLanguageMenu] = useState<null | HTMLElement>(null);
+  const [userXP, setUserXP] = useState(0);
 
   useEffect(() => {
-    const loadXP = async () => {
+    const loadUserXP = async () => {
       try {
-        setLoading(true);
-        const progress = await userProgressService.getUserProgress();
-        setXp(progress.xp);
-        setError(null);
-      } catch (err) {
-        console.error('Erreur lors du chargement de l\'XP:', err);
-        setError(t('learn.errorLoading'));
-      } finally {
-        setLoading(false);
+        const response = await fetch('http://localhost:3000/user/progress', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        const data = await response.json();
+        setUserXP(data.xp);
+      } catch (error) {
+        console.error('Erreur lors du chargement de l\'XP:', error);
       }
     };
 
-    loadXP();
-    // Rafraîchir l'XP toutes les 30 secondes
-    const interval = setInterval(loadXP, 30000);
-    return () => clearInterval(interval);
-  }, [t]);
+    loadUserXP();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
+    const handleXPUpdate = (xp: number) => {
+      setUserXP(xp);
+    };
+
+    eventEmitter.on(EVENTS.XP_UPDATED, handleXPUpdate);
+
+    return () => {
+      eventEmitter.off(EVENTS.XP_UPDATED, handleXPUpdate);
+    };
+  }, []);
+
+  const handleLanguageClick = (event: React.MouseEvent<HTMLElement>) => {
+    setLanguageMenu(event.currentTarget);
   };
 
-  const getNextLevelXP = (currentXP: number): number => {
-    if (currentXP < 100) return 100;
-    if (currentXP < 250) return 250;
-    if (currentXP < 450) return 450;
-    if (currentXP < 700) return 700;
-    if (currentXP < 1000) return 1000;
-    return currentXP + 500;
+  const handleLanguageClose = () => {
+    setLanguageMenu(null);
   };
 
-  const getCurrentLevelProgress = (currentXP: number): number => {
-    const nextLevelXP = getNextLevelXP(currentXP);
-    const prevLevelXP = nextLevelXP === 100 ? 0 : 
-                       nextLevelXP === 250 ? 100 :
-                       nextLevelXP === 450 ? 250 :
-                       nextLevelXP === 700 ? 450 :
-                       nextLevelXP === 1000 ? 700 :
-                       nextLevelXP - 500;
-    
-    return ((currentXP - prevLevelXP) / (nextLevelXP - prevLevelXP)) * 100;
+  const changeLanguage = (code: string) => {
+    i18n.changeLanguage(code);
+    handleLanguageClose();
   };
 
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" component={Link} to="/" sx={{ 
-          flexGrow: 0,
-          textDecoration: 'none',
-          color: 'inherit',
-          mr: 4
-        }}>
-          CisterciaNum
-        </Typography>
-
-        <Box sx={{ flexGrow: 1, display: 'flex', gap: 2 }}>
-          <Button
-            color="inherit"
-            component={Link}
-            to="/learn"
-            sx={{ color: location.pathname === '/learn' ? theme.palette.secondary.main : 'inherit' }}
-          >
-            {t('menu.learn')}
-          </Button>
-          <Button
-            color="inherit"
-            component={Link}
-            to="/reference"
-            sx={{ color: location.pathname === '/reference' ? theme.palette.secondary.main : 'inherit' }}
-          >
-            {t('menu.reference')}
-          </Button>
-          <Button
-            color="inherit"
-            component={Link}
-            to="/leaderboard"
-            sx={{ color: location.pathname === '/leaderboard' ? theme.palette.secondary.main : 'inherit' }}
-          >
-            {t('menu.leaderboard')}
-          </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+          <MonkIcon sx={{ fontSize: 32 }} />
         </Box>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          {!loading && !error && (
-            <Tooltip title={`${xp} XP - ${Math.round(getCurrentLevelProgress(xp))}% jusqu'au prochain niveau`}>
-              <Box sx={{ width: 100, mr: 2 }}>
-                <LinearProgress
-                  variant="determinate"
-                  value={getCurrentLevelProgress(xp)}
-                  sx={{
-                    height: 10,
-                    borderRadius: 5,
-                    backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 300 : 800],
-                    '& .MuiLinearProgress-bar': {
-                      backgroundColor: theme.palette.secondary.main,
-                    },
-                  }}
-                />
-              </Box>
-            </Tooltip>
-          )}
+        <Chip 
+          label={`${userXP} XP`}
+          color="secondary"
+          sx={{ 
+            mr: 2,
+            bgcolor: 'rgba(255, 255, 255, 0.15)',
+            color: 'white',
+            '& .MuiChip-label': {
+              fontWeight: 'bold'
+            }
+          }}
+        />
 
-          <IconButton onClick={toggleTheme} color="inherit">
-            {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+        <Tooltip title={t('menu.home')}>
+          <IconButton color="inherit" onClick={() => navigate('/')}>
+            <Home />
           </IconButton>
+        </Tooltip>
 
-          <Button
+        <Tooltip title={t('menu.learn')}>
+          <IconButton color="inherit" onClick={() => navigate('/learn')}>
+            <School />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={t('menu.reference')}>
+          <IconButton color="inherit" onClick={() => navigate('/reference')}>
+            <MenuBook />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={t('menu.leaderboard')}>
+          <IconButton color="inherit" onClick={() => navigate('/leaderboard')}>
+            <EmojiEvents />
+          </IconButton>
+        </Tooltip>
+
+        <IconButton color="inherit" onClick={toggleTheme} sx={{ ml: 1 }}>
+          {isDarkMode ? <LightIcon /> : <DarkIcon />}
+        </IconButton>
+
+        <IconButton color="inherit" onClick={handleLanguageClick} sx={{ ml: 1 }}>
+          <LanguageIcon />
+        </IconButton>
+
+        <Tooltip title={t('menu.account')}>
+          <IconButton
             color="inherit"
-            component={Link}
-            to="/account"
-            sx={{ color: location.pathname === '/account' ? theme.palette.secondary.main : 'inherit' }}
+            onClick={() => navigate('/account')}
+            sx={{ ml: 1 }}
           >
-            {t('menu.account')}
-          </Button>
+            <Settings />
+          </IconButton>
+        </Tooltip>
 
-          <Button color="inherit" onClick={handleLogout}>
-            {t('menu.logout')}
-          </Button>
-        </Box>
+        <Tooltip title={t('menu.logout')}>
+          <IconButton
+            color="inherit"
+            onClick={logout}
+            sx={{ ml: 1 }}
+          >
+            <Logout />
+          </IconButton>
+        </Tooltip>
+
+        <Menu
+          anchorEl={languageMenu}
+          open={Boolean(languageMenu)}
+          onClose={handleLanguageClose}
+        >
+          {languages.map((lang) => (
+            <MenuItem
+              key={lang.code}
+              onClick={() => changeLanguage(lang.code)}
+              selected={i18n.language === lang.code}
+            >
+              {lang.label}
+            </MenuItem>
+          ))}
+        </Menu>
       </Toolbar>
     </AppBar>
   );

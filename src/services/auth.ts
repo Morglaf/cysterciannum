@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export interface User {
   id: string;
@@ -20,6 +20,7 @@ class AuthService {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({ email, password })
       });
 
@@ -44,6 +45,7 @@ class AuthService {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({ email, password, username })
       });
 
@@ -69,8 +71,10 @@ class AuthService {
     try {
       const response = await fetch(`${API_URL}/user/profile`, {
         headers: {
-          'Authorization': `Bearer ${this.token}`
-        }
+          'Authorization': `Bearer ${this.token}`,
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
       });
 
       if (!response.ok) {

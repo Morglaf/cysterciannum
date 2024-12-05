@@ -55,9 +55,9 @@ const Leaderboard: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>{t('leaderboard.rank')}</TableCell>
-              <TableCell>{t('leaderboard.player')}</TableCell>
-              <TableCell align="right">{t('leaderboard.xp')}</TableCell>
+              <TableCell>{t('common.rank')}</TableCell>
+              <TableCell>{t('common.player')}</TableCell>
+              <TableCell align="right">{t('common.xp')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -65,7 +65,7 @@ const Leaderboard: React.FC = () => {
               <TableRow key={entry.userId}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{entry.email}</TableCell>
-                <TableCell align="right">{entry.xp}</TableCell>
+                <TableCell align="right">{entry.xp} XP</TableCell>
               </TableRow>
             ))}
             {leaderboard.length === 0 && !error && (
