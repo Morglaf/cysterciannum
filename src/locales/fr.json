@@ -1,226 +1,110 @@
 {
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer",
+    "confirm": "Confirmer",
+    "cancel": "Annuler"
+  },
   "menu": {
     "home": "Accueil",
     "learn": "Apprendre",
     "reference": "Référence",
     "leaderboard": "Classement",
-    "settings": "Paramètres",
     "account": "Compte",
     "logout": "Déconnexion"
-  },
-  "settings": {
-    "theme": "Thème",
-    "language": "Langue",
-    "dark": "Sombre",
-    "light": "Clair"
-  },
-  "account": {
-    "email": "Email",
-    "updateEmail": "Modifier l'email",
-    "deleteAccount": "Supprimer le compte",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer votre compte ?"
-  },
-  "common": {
-    "cancel": "Annuler",
-    "confirm": "Confirmer",
-    "loading": "Chargement...",
-    "error": "Une erreur est survenue",
-    "success": "Opération réussie",
-    "retry": "Réessayer",
-    "save": "Enregistrer",
-    "close": "Fermer"
   },
   "auth": {
     "login": "Connexion",
     "register": "Inscription",
     "email": "Email",
     "password": "Mot de passe",
-    "confirmPassword": "Confirmer le mot de passe",
-    "forgotPassword": "Mot de passe oublié ?",
-    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "loginError": "Email ou mot de passe incorrect",
+    "registerError": "Erreur lors de l'inscription",
     "dontHaveAccount": "Vous n'avez pas de compte ?",
-    "loginHere": "Connectez-vous ici",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "registerHere": "Inscrivez-vous ici",
-    "loginError": "Erreur de connexion",
-    "registerError": "Erreur d'inscription"
+    "loginHere": "Connectez-vous ici"
   },
   "home": {
-    "title": "CisterciaNum",
-    "subtitle": "Découvrez les chiffres cisterciens de manière ludique et interactive",
-    "startLearning": "Commencer l'apprentissage",
+    "title": "Apprenez les nombres cisterciens",
+    "subtitle": "Découvrez un système de numération fascinant du Moyen Âge",
+    "startLearning": "Commencer à apprendre",
     "features": {
       "progressiveLearning": {
-        "title": "Apprentissage Progressif",
-        "description": "Apprenez à votre rythme avec des leçons structurées"
+        "title": "Apprentissage progressif",
+        "description": "Apprenez à votre rythme avec des leçons adaptées à votre niveau"
       },
       "interactiveExercises": {
-        "title": "Exercices Interactifs",
-        "description": "QCM et exercices de dessin pour maîtriser les chiffres cisterciens"
+        "title": "Exercices interactifs",
+        "description": "Pratiquez avec des exercices interactifs et recevez des retours immédiats"
       },
       "progressTracking": {
-        "title": "Suivi de Progression",
-        "description": "Suivez votre évolution et gagnez des récompenses"
+        "title": "Suivi de progression",
+        "description": "Suivez votre progression et débloquez de nouveaux niveaux"
       }
     }
   },
   "learn": {
-    "title": "Apprendre les nombres cisterciens",
-    "introduction": "Bienvenue dans le tutoriel des nombres cisterciens",
-    "start": "Commencer",
-    "practice": "S'entraîner",
-    "level": "Niveau {{level}}",
-    "score": "Score: {{score}}",
-    "correct": "Correct !",
-    "incorrect": "Incorrect, réessayez",
-    "next": "Suivant",
+    "title": "Leçons",
+    "introduction": "Choisissez une leçon pour commencer. Les leçons sont débloquées progressivement en fonction de votre expérience.",
+    "errorLoading": "Erreur lors du chargement de la progression",
+    "errorProgress": "Erreur lors de la mise à jour de la progression",
+    "progress": {
+      "exercise": "Exercice {{current}}/{{total}}",
+      "levelComplete": "Niveau complété !"
+    },
     "lessons": {
       "basics1": {
-        "title": "Les unités (1-9)",
-        "description": "Apprenez les chiffres de 1 à 9"
+        "title": "Les bases - Unités",
+        "description": "Apprenez à lire et écrire les nombres de 1 à 9"
       },
       "basics2": {
-        "title": "Les dizaines (10-90)",
-        "description": "Apprenez à lire et écrire les dizaines"
+        "title": "Les bases - Dizaines",
+        "description": "Apprenez à lire et écrire les nombres de 10 à 90"
       },
       "basics3": {
         "title": "Nombres à deux chiffres",
         "description": "Combinez les unités et les dizaines"
       },
       "hundreds": {
-        "title": "Les centaines (100-900)",
-        "description": "Apprenez à lire et écrire les centaines"
+        "title": "Les centaines",
+        "description": "Apprenez à lire et écrire les nombres de 100 à 999"
       },
       "thousands": {
-        "title": "Les milliers (1000-9000)",
-        "description": "Apprenez à lire et écrire les milliers"
+        "title": "Les milliers",
+        "description": "Apprenez à lire et écrire les nombres de 1000 à 9999"
       },
       "mastery": {
-        "title": "Maîtrise complète",
-        "description": "Pratiquez avec des nombres de 1 à 9999"
+        "title": "Maîtrise",
+        "description": "Testez votre maîtrise sur tous les nombres"
       }
-    },
-    "progress": {
-      "exercise": "Exercice {{current}}/{{total}}",
-      "levelComplete": "Niveau terminé !",
-      "newLevel": "Nouveau niveau débloqué",
-      "xpGained": "XP gagnés : {{xp}}",
-      "totalXp": "XP total : {{total}}",
-      "nextLevel": "Prochain niveau : {{next}}"
     },
     "exercises": {
-      "convertToArabic": "Convertir en chiffres arabes",
-      "convertToCistercian": "Convertir en chiffres cisterciens",
-      "writeNumber": "Écrivez le nombre",
-      "selectCorrectAnswer": "Sélectionnez la bonne réponse",
-      "dragAndDrop": "Faites glisser les symboles au bon endroit",
-      "drawNumber": "Dessinez le nombre {{number}}",
       "whatNumber": "Quel nombre est représenté ?",
-      "buttons": {
-        "clear": "Effacer",
-        "validate": "Valider",
-        "next": "Suivant",
-        "quit": "Quitter"
-      }
-    },
-    "feedback": {
-      "almostThere": "Presque là !",
-      "keepGoing": "Continuez comme ça !",
-      "excellent": "Excellent !",
-      "needMorePractice": "Besoin de plus de pratique",
-      "tryAgain": "Réessayez"
+      "drawNumber": "Dessinez le nombre {{number}} ({{position}})",
+      "identify": "Identifiez le nombre"
     }
+  },
+  "positions": {
+    "units": "unités",
+    "tens": "dizaines",
+    "hundreds": "centaines",
+    "thousands": "milliers"
   },
   "leaderboard": {
     "title": "Classement",
-    "tabs": {
-      "daily": "Aujourd'hui",
-      "weekly": "Cette semaine",
-      "allTime": "Général"
-    },
-    "columns": {
-      "rank": "Position",
-      "player": "Joueur",
-      "xp": "XP",
-      "level": "Niveau",
-      "streak": "Série"
-    },
-    "ranks": {
-      "1": "1er",
-      "2": "2ème",
-      "3": "3ème",
-      "other": "{{rank}}ème"
-    },
-    "levels": {
-      "maitre": "Maître",
-      "expert": "Expert",
-      "avance": "Avancé",
-      "intermediaire": "Intermédiaire",
-      "apprenti": "Apprenti",
-      "novice": "Novice"
-    },
-    "streakDays": "{{count}} jours",
-    "loading": "Chargement du classement...",
-    "error": "Erreur lors de la récupération du classement",
+    "rank": "Rang",
+    "player": "Joueur",
+    "xp": "XP",
     "noData": "Aucune donnée disponible",
-    "yourRank": "Votre classement",
-    "topPlayers": "Meilleurs joueurs",
-    "recentProgress": "Progrès récents"
+    "error": "Erreur lors du chargement du classement"
   },
-  "reference": {
-    "title": "Référence des Chiffres Cisterciens",
-    "numbers": {
-      "1": {
-        "description": "Un simple trait horizontal tout en haut"
-      },
-      "2": {
-        "description": "Un simple trait horizontal en bas"
-      },
-      "3": {
-        "description": "Une diagonale du haut vers le bas"
-      },
-      "4": {
-        "description": "Une diagonale du bas vers le haut"
-      },
-      "5": {
-        "description": "Superposition du 1 et du 4"
-      },
-      "6": {
-        "description": "Un trait vertical espacé de l'axe central"
-      },
-      "7": {
-        "description": "Superposition du 1 et du 6"
-      },
-      "8": {
-        "description": "Superposition du 2 et du 6"
-      },
-      "9": {
-        "description": "Superposition du 1, 2 et 6"
-      }
-    },
-    "generator": {
-      "title": "Générateur de Nombres",
-      "input": "Entrez un nombre (0-9999)",
-      "number": "Nombre"
-    },
-    "positions": {
-      "units": "Unités ({{value}}) : En haut à droite",
-      "tens": "Dizaines ({{value}}) : En haut à gauche",
-      "hundreds": "Centaines ({{value}}) : En bas à droite",
-      "thousands": "Milliers ({{value}}) : En bas à gauche"
-    },
-    "rules": {
-      "title": "Règles de Lecture",
-      "introduction": "Pour lire un nombre cistercien, suivez ces étapes :",
-      "step1": "1. Le nombre est construit autour d'une ligne verticale centrale",
-      "step2": "2. Les chiffres sont placés dans quatre quadrants :",
-      "step3": "3. Chaque chiffre est une combinaison de traits simples",
-      "step4": "4. Les traits se lisent de la même manière dans chaque quadrant, mais sont orientés différemment",
-      "positions": {
-        "tens": "En haut à gauche : Dizaines (10-90)",
-        "units": "En haut à droite : Unités (1-9)",
-        "thousands": "En bas à gauche : Milliers (1000-9000)",
-        "hundreds": "En bas à droite : Centaines (100-900)"
-      }
-    }
+  "account": {
+    "title": "Paramètres du compte",
+    "email": "Email",
+    "updateEmail": "Mettre à jour l'email",
+    "deleteAccount": "Supprimer le compte",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
   }
 } 
