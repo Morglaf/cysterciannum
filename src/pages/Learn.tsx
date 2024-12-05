@@ -20,9 +20,8 @@ const Learn: React.FC = () => {
 
   const generateExercises = (min: number, max: number, count: number, step: number = 1): Exercise[] => {
     const exercises: Exercise[] = [];
-    const usedNumbers = new Set<number>();
     let attempts = 0;
-    const maxAttempts = 100;
+    const maxAttempts = 1000;
 
     const getPosition = (num: number): 'units' | 'tens' | 'hundreds' | 'thousands' => {
       if (num < 10) return 'units';
@@ -31,45 +30,49 @@ const Learn: React.FC = () => {
       return 'thousands';
     };
 
-    while (exercises.length < count && attempts < maxAttempts) {
-      attempts++;
-      const num = Math.floor(Math.random() * ((max - min) / step + 1)) * step + min;
-      
-      if (!usedNumbers.has(num)) {
-        usedNumbers.add(num);
-        
-        const options = new Set<number>([num]);
-        while (options.size < 4 && attempts < maxAttempts) {
-          attempts++;
-          const option = Math.floor(Math.random() * ((max - min) / step + 1)) * step + min;
-          options.add(option);
-        }
+    const possibleNumbers = [];
+    for (let i = min; i <= max; i += step) {
+      possibleNumbers.push(i);
+    }
 
-        const position = getPosition(num);
-        const displayNum = position === 'units' ? num : Math.floor(num / Math.pow(10, ['units', 'tens', 'hundreds', 'thousands'].indexOf(position)));
-        
-        const exercise: Exercise = Math.random() > 0.5 
-          ? {
-              type: 'qcm',
-              question: 'learn.exercises.whatNumber',
-              correctAnswer: num.toString(),
-              options: Array.from(options).map(n => n.toString()),
-              targetNumber: num
-            }
-          : {
-              type: 'drawing',
-              question: 'learn.exercises.drawNumber',
-              correctAnswer: num.toString(),
-              targetNumber: displayNum,
-              position: position,
-              translationParams: {
-                number: displayNum,
-                position: t(`reference.positions.${position}.name`)
-              }
-            };
-        
-        exercises.push(exercise);
+    for (let i = possibleNumbers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [possibleNumbers[i], possibleNumbers[j]] = [possibleNumbers[j], possibleNumbers[i]];
+    }
+
+    for (let i = 0; i < count && i < possibleNumbers.length; i++) {
+      const num = possibleNumbers[i];
+      const position = getPosition(num);
+      const displayNum = position === 'units' ? num : Math.floor(num / Math.pow(10, ['units', 'tens', 'hundreds', 'thousands'].indexOf(position)));
+      
+      const options = new Set<number>([num]);
+      while (options.size < 4 && attempts < maxAttempts) {
+        attempts++;
+        const option = possibleNumbers[Math.floor(Math.random() * possibleNumbers.length)];
+        options.add(option);
       }
+
+      const exercise: Exercise = Math.random() > 0.5 
+        ? {
+            type: 'qcm',
+            question: 'learn.exercises.whatNumber',
+            correctAnswer: num.toString(),
+            options: Array.from(options).map(n => n.toString()),
+            targetNumber: num
+          }
+        : {
+            type: 'drawing',
+            question: 'learn.exercises.drawNumber',
+            correctAnswer: num.toString(),
+            targetNumber: displayNum,
+            position: position,
+            translationParams: {
+              number: displayNum,
+              position: t(`reference.positions.${position}.name`)
+            }
+          };
+      
+      exercises.push(exercise);
     }
 
     return exercises;
