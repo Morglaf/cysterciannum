@@ -63,7 +63,7 @@ const Learn: React.FC = () => {
             targetNumber: displayNum,
             position: position,
             translationParams: {
-              number: displayNum,
+              number: num,
               position: t(`reference.positions.${position}.name`)
             }
           };

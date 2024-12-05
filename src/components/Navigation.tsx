@@ -105,6 +105,7 @@ const Navigation = () => {
         top: 0,
         left: 0,
         bgcolor: muiTheme.palette.background.paper,
+        color: muiTheme.palette.text.primary
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -128,8 +129,8 @@ const Navigation = () => {
             color="secondary"
             sx={{ 
               mr: 2,
-              bgcolor: 'rgba(255, 255, 255, 0.15)',
-              color: 'white',
+              bgcolor: muiTheme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)',
+              color: muiTheme.palette.text.primary,
               '& .MuiChip-label': {
                 fontWeight: 'bold'
               }

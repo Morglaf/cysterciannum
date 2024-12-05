@@ -157,7 +157,10 @@ const DrawingExercise = ({ exercise, onComplete }: DrawingExerciseProps) => {
 
   const handleSubmit = () => {
     if (isCompleted) {
-      onComplete(false);
+      setPaths([]);
+      setShowCorrectAnswer(false);
+      setIsCorrect(null);
+      setIsCompleted(false);
       return;
     }
 
@@ -171,7 +174,7 @@ const DrawingExercise = ({ exercise, onComplete }: DrawingExerciseProps) => {
       onComplete(true);
     } else {
       setShowCorrectAnswer(true);
-      setIsCompleted(true);
+      setIsCompleted(false);
     }
   };
 
