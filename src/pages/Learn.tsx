@@ -7,120 +7,6 @@ import ExerciseResults from '../components/ExerciseResults';
 import { userProgressService } from '../services/userProgress';
 import type { Exercise, LessonLevel } from '../types/cistercian';
 
-function generateExercises(min: number, max: number, count: number, step: number = 1): Exercise[] {
-  const exercises: Exercise[] = [];
-  const usedNumbers = new Set<number>();
-  let attempts = 0;
-  const maxAttempts = 100;
-
-  const getPosition = (num: number): 'units' | 'tens' | 'hundreds' | 'thousands' => {
-    if (num < 10) return 'units';
-    if (num < 100) return 'tens';
-    if (num < 1000) return 'hundreds';
-    return 'thousands';
-  };
-
-  while (exercises.length < count && attempts < maxAttempts) {
-    attempts++;
-    const num = Math.floor(Math.random() * ((max - min) / step + 1)) * step + min;
-    
-    if (!usedNumbers.has(num)) {
-      usedNumbers.add(num);
-      
-      const options = new Set<number>([num]);
-      while (options.size < 4 && attempts < maxAttempts) {
-        attempts++;
-        const option = Math.floor(Math.random() * ((max - min) / step + 1)) * step + min;
-        options.add(option);
-      }
-
-      const position = getPosition(num);
-      const displayNum = position === 'units' ? num : Math.floor(num / Math.pow(10, ['units', 'tens', 'hundreds', 'thousands'].indexOf(position)));
-      
-      const exercise: Exercise = Math.random() > 0.5 
-        ? {
-            type: 'qcm',
-            question: 'learn.exercises.whatNumber',
-            correctAnswer: num.toString(),
-            options: Array.from(options).map(n => n.toString()),
-            targetNumber: num
-          }
-        : {
-            type: 'drawing',
-            question: 'learn.exercises.drawNumber',
-            correctAnswer: num.toString(),
-            targetNumber: displayNum,
-            position: position,
-            translationParams: {
-              number: displayNum,
-              position: `positions.${position}.name`
-            }
-          };
-      
-      exercises.push(exercise);
-    }
-  }
-
-  return exercises;
-}
-
-const createLessons = (t: any): LessonLevel[] => [
-  {
-    id: 'basics-1',
-    title: t('learn.lessons.basics1.title'),
-    description: t('learn.lessons.basics1.description'),
-    requiredLessonId: null,
-    minXP: 0,
-    xpReward: 100,
-    exercises: generateExercises(1, 9, 10, 1)
-  },
-  {
-    id: 'basics-2',
-    title: t('learn.lessons.basics2.title'),
-    description: t('learn.lessons.basics2.description'),
-    requiredLessonId: 'basics-1',
-    minXP: 100,
-    xpReward: 200,
-    exercises: generateExercises(10, 90, 10, 10)
-  },
-  {
-    id: 'basics-3',
-    title: t('learn.lessons.basics3.title'),
-    description: t('learn.lessons.basics3.description'),
-    requiredLessonId: 'basics-2',
-    minXP: 250,
-    xpReward: 200,
-    exercises: generateExercises(11, 99, 10, 1)
-  },
-  {
-    id: 'hundreds',
-    title: t('learn.lessons.hundreds.title'),
-    description: t('learn.lessons.hundreds.description'),
-    requiredLessonId: 'basics-3',
-    minXP: 450,
-    xpReward: 250,
-    exercises: generateExercises(100, 900, 10, 100)
-  },
-  {
-    id: 'thousands',
-    title: t('learn.lessons.thousands.title'),
-    description: t('learn.lessons.thousands.description'),
-    requiredLessonId: 'hundreds',
-    minXP: 700,
-    xpReward: 300,
-    exercises: generateExercises(1000, 9000, 10, 1000)
-  },
-  {
-    id: 'mastery',
-    title: t('learn.lessons.mastery.title'),
-    description: t('learn.lessons.mastery.description'),
-    requiredLessonId: 'thousands',
-    minXP: 1000,
-    xpReward: 500,
-    exercises: generateExercises(1, 9999, 10, 1)
-  }
-];
-
 const Learn: React.FC = () => {
   const { t } = useTranslation();
   const [currentLesson, setCurrentLesson] = useState<LessonLevel | null>(null);
@@ -132,8 +18,122 @@ const Learn: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [lessons, setLessons] = useState<LessonLevel[]>([]);
 
+  const generateExercises = (min: number, max: number, count: number, step: number = 1): Exercise[] => {
+    const exercises: Exercise[] = [];
+    const usedNumbers = new Set<number>();
+    let attempts = 0;
+    const maxAttempts = 100;
+
+    const getPosition = (num: number): 'units' | 'tens' | 'hundreds' | 'thousands' => {
+      if (num < 10) return 'units';
+      if (num < 100) return 'tens';
+      if (num < 1000) return 'hundreds';
+      return 'thousands';
+    };
+
+    while (exercises.length < count && attempts < maxAttempts) {
+      attempts++;
+      const num = Math.floor(Math.random() * ((max - min) / step + 1)) * step + min;
+      
+      if (!usedNumbers.has(num)) {
+        usedNumbers.add(num);
+        
+        const options = new Set<number>([num]);
+        while (options.size < 4 && attempts < maxAttempts) {
+          attempts++;
+          const option = Math.floor(Math.random() * ((max - min) / step + 1)) * step + min;
+          options.add(option);
+        }
+
+        const position = getPosition(num);
+        const displayNum = position === 'units' ? num : Math.floor(num / Math.pow(10, ['units', 'tens', 'hundreds', 'thousands'].indexOf(position)));
+        
+        const exercise: Exercise = Math.random() > 0.5 
+          ? {
+              type: 'qcm',
+              question: 'learn.exercises.whatNumber',
+              correctAnswer: num.toString(),
+              options: Array.from(options).map(n => n.toString()),
+              targetNumber: num
+            }
+          : {
+              type: 'drawing',
+              question: 'learn.exercises.drawNumber',
+              correctAnswer: num.toString(),
+              targetNumber: displayNum,
+              position: position,
+              translationParams: {
+                number: displayNum,
+                position: t(`reference.positions.${position}.name`)
+              }
+            };
+        
+        exercises.push(exercise);
+      }
+    }
+
+    return exercises;
+  };
+
+  const createLessons = (): LessonLevel[] => [
+    {
+      id: 'basics-1',
+      title: t('learn.lessons.basics1.title'),
+      description: t('learn.lessons.basics1.description'),
+      requiredLessonId: null,
+      minXP: 0,
+      xpReward: 100,
+      exercises: generateExercises(1, 9, 10, 1)
+    },
+    {
+      id: 'basics-2',
+      title: t('learn.lessons.basics2.title'),
+      description: t('learn.lessons.basics2.description'),
+      requiredLessonId: 'basics-1',
+      minXP: 100,
+      xpReward: 200,
+      exercises: generateExercises(10, 90, 10, 10)
+    },
+    {
+      id: 'basics-3',
+      title: t('learn.lessons.basics3.title'),
+      description: t('learn.lessons.basics3.description'),
+      requiredLessonId: 'basics-2',
+      minXP: 250,
+      xpReward: 200,
+      exercises: generateExercises(11, 99, 10, 1)
+    },
+    {
+      id: 'hundreds',
+      title: t('learn.lessons.hundreds.title'),
+      description: t('learn.lessons.hundreds.description'),
+      requiredLessonId: 'basics-3',
+      minXP: 450,
+      xpReward: 250,
+      exercises: generateExercises(100, 900, 10, 100)
+    },
+    {
+      id: 'thousands',
+      title: t('learn.lessons.thousands.title'),
+      description: t('learn.lessons.thousands.description'),
+      requiredLessonId: 'hundreds',
+      minXP: 700,
+      xpReward: 300,
+      exercises: generateExercises(1000, 9000, 10, 1000)
+    },
+    {
+      id: 'mastery',
+      title: t('learn.lessons.mastery.title'),
+      description: t('learn.lessons.mastery.description'),
+      requiredLessonId: 'thousands',
+      minXP: 1000,
+      xpReward: 500,
+      exercises: generateExercises(1, 9999, 10, 1)
+    }
+  ];
+
   useEffect(() => {
-    setLessons(createLessons(t));
+    setLessons(createLessons());
   }, [t]);
 
   const isLessonCompleted = (lesson: LessonLevel) => {
