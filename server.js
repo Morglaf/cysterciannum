@@ -37,10 +37,34 @@ app.use(cors({
 
 app.use(express.json());
 
-// Routes d'authentification
-const users = new Map(); // Stockage temporaire des utilisateurs
-const tokens = new Map(); // Stockage temporaire des tokens
+// Stockage temporaire
+const users = new Map(); // Stockage des utilisateurs
+const tokens = new Map(); // Stockage des tokens
+const userProgress = new Map(); // Stockage de la progression des utilisateurs
 
+// Middleware d'authentification
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  
+  if (!token) {
+    return res.status(401).json({ message: 'Token manquant' });
+  }
+
+  const userId = tokens.get(token);
+  if (!userId) {
+    return res.status(401).json({ message: 'Token invalide' });
+  }
+
+  const user = Array.from(users.values()).find(u => u.id === userId);
+  if (!user) {
+    return res.status(401).json({ message: 'Utilisateur non trouvé' });
+  }
+
+  req.user = user;
+  next();
+};
+
+// Routes d'authentification
 app.post('/auth/register', (req, res) => {
   try {
     const { email, password } = req.body;
@@ -56,6 +80,7 @@ app.post('/auth/register', (req, res) => {
     // Créer un nouvel utilisateur
     const userId = Date.now().toString();
     users.set(email, { id: userId, email, password });
+    userProgress.set(userId, { xp: 0, completedLessons: [] });
 
     // Créer un token
     const token = Math.random().toString(36).substring(2);
@@ -100,31 +125,71 @@ app.post('/auth/login', (req, res) => {
   }
 });
 
-app.get('/auth/validate', (req, res) => {
+app.get('/auth/validate', authenticateToken, (req, res) => {
+  res.json({
+    userId: req.user.id,
+    email: req.user.email
+  });
+});
+
+// Routes de progression
+app.get('/user/progress', authenticateToken, (req, res) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    
-    if (!token) {
-      return res.status(401).json({ message: 'Token manquant' });
-    }
-
-    const userId = tokens.get(token);
-    if (!userId) {
-      return res.status(401).json({ message: 'Token invalide' });
-    }
-
-    const user = Array.from(users.values()).find(u => u.id === userId);
-    if (!user) {
-      return res.status(401).json({ message: 'Utilisateur non trouvé' });
-    }
-
-    res.json({
-      userId: user.id,
-      email: user.email
-    });
+    const progress = userProgress.get(req.user.id) || { xp: 0, completedLessons: [] };
+    res.json(progress);
   } catch (error) {
-    console.error('Validate error:', error);
-    res.status(500).json({ message: 'Erreur lors de la validation du token' });
+    console.error('Progress error:', error);
+    res.status(500).json({ message: 'Erreur lors de la récupération de la progression' });
+  }
+});
+
+app.post('/user/progress/xp', authenticateToken, (req, res) => {
+  try {
+    const { xpGained } = req.body;
+    const progress = userProgress.get(req.user.id) || { xp: 0, completedLessons: [] };
+    progress.xp += xpGained;
+    userProgress.set(req.user.id, progress);
+    res.json(progress);
+  } catch (error) {
+    console.error('XP update error:', error);
+    res.status(500).json({ message: 'Erreur lors de la mise à jour de l\'XP' });
+  }
+});
+
+app.post('/user/progress/lesson', authenticateToken, (req, res) => {
+  try {
+    const { lessonId } = req.body;
+    const progress = userProgress.get(req.user.id) || { xp: 0, completedLessons: [] };
+    if (!progress.completedLessons.includes(lessonId)) {
+      progress.completedLessons.push(lessonId);
+    }
+    userProgress.set(req.user.id, progress);
+    res.json(progress);
+  } catch (error) {
+    console.error('Lesson completion error:', error);
+    res.status(500).json({ message: 'Erreur lors de la mise à jour de la leçon' });
+  }
+});
+
+// Route du leaderboard
+app.get('/leaderboard', (req, res) => {
+  try {
+    const leaderboard = Array.from(userProgress.entries())
+      .map(([userId, progress]) => {
+        const user = Array.from(users.values()).find(u => u.id === userId);
+        return {
+          userId,
+          email: user?.email,
+          xp: progress.xp
+        };
+      })
+      .sort((a, b) => b.xp - a.xp)
+      .slice(0, 10);
+
+    res.json(leaderboard);
+  } catch (error) {
+    console.error('Leaderboard error:', error);
+    res.status(500).json({ message: 'Erreur lors de la récupération du classement' });
   }
 });
 
