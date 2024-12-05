@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Learn from './pages/Learn';
 import Reference from './pages/Reference';
 import LoginPage from './components/auth/LoginPage';
+import RegisterPage from './components/auth/RegisterPage';
 import { AuthProvider, useAuth } from './components/auth/AuthProvider';
 import Leaderboard from './components/Leaderboard';
 import AccountSettings from './pages/AccountSettings';
@@ -26,6 +27,16 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+const PublicRoute = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth();
+
+  if (user) {
+    return <Navigate to="/" />;
+  }
+
+  return <>{children}</>;
+};
+
 function AppContent() {
   const { user } = useAuth();
   const basename = import.meta.env.DEV ? '/' : '/cysterciannum';
@@ -38,7 +49,19 @@ function AppContent() {
         
         <Container maxWidth="lg" sx={{ mt: 4 }}>
           <Routes>
-            <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
+            {/* Routes publiques */}
+            <Route path="/login" element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            } />
+            <Route path="/register" element={
+              <PublicRoute>
+                <RegisterPage />
+              </PublicRoute>
+            } />
+
+            {/* Routes protégées */}
             <Route path="/" element={
               <ProtectedRoute>
                 <Home />
@@ -64,6 +87,9 @@ function AppContent() {
                 <AccountSettings />
               </ProtectedRoute>
             } />
+
+            {/* Route par défaut */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Container>
       </Box>
