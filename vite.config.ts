@@ -5,10 +5,11 @@ import { resolve } from 'path'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
+  const base = mode === 'production' ? '/cysterciannum/' : '/';
   
   return {
     plugins: [react()],
-    base: '/cysterciannum/',
+    base,
     define: {
       'process.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL),
       'process.env.VITE_AUTH_DOMAIN': JSON.stringify(env.VITE_AUTH_DOMAIN)

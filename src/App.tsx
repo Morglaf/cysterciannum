@@ -39,6 +39,7 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 
 function AppContent() {
   const { user } = useAuth();
+  const basename = import.meta.env.DEV ? '/' : '/cysterciannum';
 
   return (
     <Router>
