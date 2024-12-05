@@ -1,3 +1,8 @@
+export interface Point {
+  x: number;
+  y: number;
+}
+
 export type CistercianDigit = {
   value: number;
   paths: string[];  // SVG paths pour dessiner le chiffre
