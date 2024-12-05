@@ -82,7 +82,7 @@ const Learn: React.FC = () => {
       description: t('learn.lessons.basics1.description'),
       requiredLessonId: null,
       minXP: 0,
-      xpReward: 100,
+      xpReward: 110,
       exercises: generateExercises(1, 9, 10, 1)
     },
     {
@@ -91,7 +91,7 @@ const Learn: React.FC = () => {
       description: t('learn.lessons.basics2.description'),
       requiredLessonId: 'basics-1',
       minXP: 100,
-      xpReward: 200,
+      xpReward: 110,
       exercises: generateExercises(10, 90, 10, 10)
     },
     {
@@ -99,8 +99,8 @@ const Learn: React.FC = () => {
       title: t('learn.lessons.basics3.title'),
       description: t('learn.lessons.basics3.description'),
       requiredLessonId: 'basics-2',
-      minXP: 250,
-      xpReward: 200,
+      minXP: 200,
+      xpReward: 110,
       exercises: generateExercises(11, 99, 10, 1)
     },
     {
@@ -108,8 +108,8 @@ const Learn: React.FC = () => {
       title: t('learn.lessons.hundreds.title'),
       description: t('learn.lessons.hundreds.description'),
       requiredLessonId: 'basics-3',
-      minXP: 450,
-      xpReward: 250,
+      minXP: 300,
+      xpReward: 110,
       exercises: generateExercises(100, 900, 10, 100)
     },
     {
@@ -117,8 +117,8 @@ const Learn: React.FC = () => {
       title: t('learn.lessons.thousands.title'),
       description: t('learn.lessons.thousands.description'),
       requiredLessonId: 'hundreds',
-      minXP: 700,
-      xpReward: 300,
+      minXP: 400,
+      xpReward: 110,
       exercises: generateExercises(1000, 9000, 10, 1000)
     },
     {
@@ -126,8 +126,8 @@ const Learn: React.FC = () => {
       title: t('learn.lessons.mastery.title'),
       description: t('learn.lessons.mastery.description'),
       requiredLessonId: 'thousands',
-      minXP: 1000,
-      xpReward: 500,
+      minXP: 500,
+      xpReward: 110,
       exercises: generateExercises(1, 9999, 10, 1)
     }
   ];
@@ -165,7 +165,7 @@ const Learn: React.FC = () => {
     try {
       if (success && currentLesson) {
         setCorrectAnswers(prev => prev + 1);
-        const xpPerExercise = Math.floor(currentLesson.xpReward / currentLesson.exercises.length);
+        const xpPerExercise = 11; // 11 XP par exercice réussi (110 XP total pour 10 exercices)
         await userProgressService.updateProgress(xpPerExercise);
         const progress = await userProgressService.getUserProgress();
         setUserXP(progress.xp);
@@ -246,6 +246,9 @@ const Learn: React.FC = () => {
             >
               <Typography variant="h6">{lesson.title}</Typography>
               <Typography color="textSecondary">{lesson.description}</Typography>
+              <Typography color="textSecondary" sx={{ mt: 1 }}>
+                {lesson.minXP > userXP ? `XP requis : ${lesson.minXP} XP` : ''}
+              </Typography>
               {isLessonCompleted(lesson) && (
                 <Typography color="success.main">
                   {t('learn.progress.levelComplete')}
@@ -259,12 +262,13 @@ const Learn: React.FC = () => {
   }
 
   if (showResults) {
+    const earnedXP = correctAnswers * 11; // 11 XP par exercice réussi
     return (
       <ExerciseResults
         totalQuestions={currentLesson.exercises.length}
         correctAnswers={correctAnswers}
         errors={currentLesson.exercises.length - correctAnswers}
-        xpEarned={Math.round((correctAnswers / currentLesson.exercises.length) * currentLesson.xpReward)}
+        xpEarned={earnedXP}
         onContinue={handleFinishLesson}
       />
     );
