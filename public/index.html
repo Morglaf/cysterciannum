@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self' https://cysterciannum-api.onrender.com;
-      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://morglaf.github.io;
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://morglaf.github.io https://*.github.io;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' data: https: blob:;
       font-src 'self' data: https://fonts.gstatic.com;
@@ -14,8 +14,13 @@
       worker-src 'self' blob:;
       manifest-src 'self';
       base-uri 'self';
-      form-action 'self';">
+      form-action 'self';
+      object-src 'none';">
     <title>CisterciaNum - Apprenez les chiffres cisterciens</title>
+    <script>
+      window.global = window;
+      window.process = { env: { NODE_ENV: 'production' } };
+    </script>
   </head>
   <body>
     <div id="root"></div>
