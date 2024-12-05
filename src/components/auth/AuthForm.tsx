@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Alert } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from './AuthProvider';
+import { Link } from 'react-router-dom';
 
 interface AuthFormProps {
   mode: 'login' | 'register';
@@ -75,17 +76,21 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
           <>
             {t('auth.dontHaveAccount')}
             {' '}
-            <Button color="primary" href="/register">
-              {t('auth.registerHere')}
-            </Button>
+            <Link to="/register" style={{ textDecoration: 'none' }}>
+              <Button color="primary">
+                {t('auth.registerHere')}
+              </Button>
+            </Link>
           </>
         ) : (
           <>
             {t('auth.alreadyHaveAccount')}
             {' '}
-            <Button color="primary" href="/login">
-              {t('auth.loginHere')}
-            </Button>
+            <Link to="/login" style={{ textDecoration: 'none' }}>
+              <Button color="primary">
+                {t('auth.loginHere')}
+              </Button>
+            </Link>
           </>
         )}
       </Typography>
