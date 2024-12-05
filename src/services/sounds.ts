@@ -7,14 +7,14 @@ class SoundManager {
   }
 
   private initializeSounds() {
-    const baseUrl = 'http://localhost:3000/sounds';
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
     // Créer les éléments audio pour chaque son
     this.sounds = {
-      correct: new Audio(`${baseUrl}/correct.mp3`),
-      incorrect: new Audio(`${baseUrl}/incorrect.mp3`),
-      achievement: new Audio(`${baseUrl}/achievement.mp3`),
-      levelUp: new Audio(`${baseUrl}/level-up.mp3`),
-      click: new Audio(`${baseUrl}/click.mp3`)
+      correct: new Audio(`${baseUrl}/sounds/correct.mp3`),
+      incorrect: new Audio(`${baseUrl}/sounds/incorrect.mp3`),
+      achievement: new Audio(`${baseUrl}/sounds/achievement.mp3`),
+      levelUp: new Audio(`${baseUrl}/sounds/level-up.mp3`),
+      click: new Audio(`${baseUrl}/sounds/click.mp3`)
     };
 
     // Précharger les sons

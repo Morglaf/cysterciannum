@@ -51,7 +51,7 @@ function AppContent() {
           maxWidth="lg" 
           sx={{ 
             mt: user ? '84px' : 4,
-            p: 2,
+            p: { xs: 0, sm: 2 },
             minHeight: '100vh'
           }}
         >
