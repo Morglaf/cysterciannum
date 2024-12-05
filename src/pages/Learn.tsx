@@ -63,7 +63,10 @@ const Learn: React.FC = () => {
             targetNumber: displayNum,
             position: position,
             translationParams: {
-              number: displayNum
+              number: position === 'units' ? displayNum :
+                     position === 'tens' ? displayNum * 10 :
+                     position === 'hundreds' ? displayNum * 100 :
+                     displayNum * 1000
             }
           };
       
