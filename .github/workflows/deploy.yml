@@ -23,11 +23,13 @@ jobs:
           node-version: '18.17.0'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Clean install
         run: |
           npm --version
           node --version
-          npm ci --legacy-peer-deps
+          rm -f package-lock.json
+          npm install
+          npm install --package-lock-only
 
       - name: Build
         run: |
