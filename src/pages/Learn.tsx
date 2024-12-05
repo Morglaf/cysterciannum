@@ -18,7 +18,7 @@ const Learn: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [lessons, setLessons] = useState<LessonLevel[]>([]);
 
-  const generateExercises = (min: number, max: number, count: number, step: number = 1): Exercise[] => {
+  const generateExercises = (min: number, max: number, step: number = 1): Exercise[] => {
     const exercises: Exercise[] = [];
     let attempts = 0;
     const maxAttempts = 1000;
@@ -30,7 +30,7 @@ const Learn: React.FC = () => {
       return 'thousands';
     };
 
-    const possibleNumbers = [];
+    const possibleNumbers: number[] = [];
     for (let i = min; i <= max; i += step) {
       possibleNumbers.push(i);
     }
@@ -40,8 +40,9 @@ const Learn: React.FC = () => {
       [possibleNumbers[i], possibleNumbers[j]] = [possibleNumbers[j], possibleNumbers[i]];
     }
 
-    for (let i = 0; i < count && i < possibleNumbers.length; i++) {
-      const num = possibleNumbers[i];
+    const selectedNumbers = possibleNumbers.slice(0, 10);
+
+    selectedNumbers.forEach(num => {
       const position = getPosition(num);
       const displayNum = position === 'units' ? num : Math.floor(num / Math.pow(10, ['units', 'tens', 'hundreds', 'thousands'].indexOf(position)));
       
@@ -73,7 +74,7 @@ const Learn: React.FC = () => {
           };
       
       exercises.push(exercise);
-    }
+    });
 
     return exercises;
   };
@@ -86,7 +87,7 @@ const Learn: React.FC = () => {
       requiredLessonId: null,
       minXP: 0,
       xpReward: 110,
-      exercises: generateExercises(1, 9, 10, 1)
+      exercises: generateExercises(1, 9)
     },
     {
       id: 'basics-2',
@@ -95,7 +96,7 @@ const Learn: React.FC = () => {
       requiredLessonId: 'basics-1',
       minXP: 100,
       xpReward: 110,
-      exercises: generateExercises(10, 90, 10, 10)
+      exercises: generateExercises(10, 90, 10)
     },
     {
       id: 'basics-3',
@@ -104,7 +105,7 @@ const Learn: React.FC = () => {
       requiredLessonId: 'basics-2',
       minXP: 200,
       xpReward: 110,
-      exercises: generateExercises(11, 99, 10, 1)
+      exercises: generateExercises(11, 99)
     },
     {
       id: 'hundreds',
@@ -113,7 +114,7 @@ const Learn: React.FC = () => {
       requiredLessonId: 'basics-3',
       minXP: 300,
       xpReward: 110,
-      exercises: generateExercises(100, 900, 10, 100)
+      exercises: generateExercises(100, 900, 100)
     },
     {
       id: 'thousands',
@@ -122,7 +123,7 @@ const Learn: React.FC = () => {
       requiredLessonId: 'hundreds',
       minXP: 400,
       xpReward: 110,
-      exercises: generateExercises(1000, 9000, 10, 1000)
+      exercises: generateExercises(1000, 9000, 1000)
     },
     {
       id: 'mastery',
@@ -131,7 +132,7 @@ const Learn: React.FC = () => {
       requiredLessonId: 'thousands',
       minXP: 500,
       xpReward: 110,
-      exercises: generateExercises(1, 9999, 10, 1)
+      exercises: generateExercises(1, 9999)
     }
   ];
 
