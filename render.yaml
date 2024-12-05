@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: cysterciannum
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: node server.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18.0.0
+    healthCheckPath: /
+    autoDeploy: true 
