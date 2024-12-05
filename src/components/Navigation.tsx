@@ -26,6 +26,7 @@ import { useTheme } from '../utils/ThemeContext';
 import { useAuth } from '../components/auth/AuthProvider';
 import MonkIcon from './MonkIcon';
 import { eventEmitter, EVENTS } from '../services/events';
+import { userProgressService } from '../services/userProgress';
 
 const languages = [
   { code: 'fr', label: 'Français' },
@@ -46,13 +47,8 @@ const Navigation = () => {
   useEffect(() => {
     const loadUserXP = async () => {
       try {
-        const response = await fetch('http://localhost:3000/user/progress', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-        const data = await response.json();
-        setUserXP(data.xp);
+        const progress = await userProgressService.getUserProgress();
+        setUserXP(progress.xp);
       } catch (error) {
         console.error('Erreur lors du chargement de l\'XP:', error);
       }

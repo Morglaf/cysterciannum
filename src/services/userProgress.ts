@@ -1,3 +1,5 @@
+import { emitXPUpdate } from './events';
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export const userProgressService = {
@@ -12,7 +14,9 @@ export const userProgressService = {
     if (!response.ok) {
       throw new Error('Failed to fetch user progress');
     }
-    return response.json();
+    const data = await response.json();
+    emitXPUpdate(data.xp);
+    return data;
   },
 
   async updateProgress(xpGained: number) {
@@ -28,7 +32,9 @@ export const userProgressService = {
     if (!response.ok) {
       throw new Error('Failed to update progress');
     }
-    return response.json();
+    const data = await response.json();
+    emitXPUpdate(data.xp);
+    return data;
   },
 
   async getLeaderboard() {
