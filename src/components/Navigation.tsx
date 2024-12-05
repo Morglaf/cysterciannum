@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,9 +10,15 @@ import {
   Box,
   Tooltip,
   Chip,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  useTheme as useMuiTheme,
 } from '@mui/material';
 import {
-  Home,
   School,
   MenuBook,
   EmojiEvents,
@@ -41,10 +47,12 @@ const Navigation = () => {
   const { t, i18n } = useTranslation();
   const { isDarkMode, toggleTheme } = useTheme();
   const { logout } = useAuth();
+  const [settingsMenu, setSettingsMenu] = useState<null | HTMLElement>(null);
   const [languageMenu, setLanguageMenu] = useState<null | HTMLElement>(null);
   const [userXP, setUserXP] = useState(0);
+  const muiTheme = useMuiTheme();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const loadUserXP = async () => {
       try {
         const progress = await userProgressService.getUserProgress();
@@ -67,8 +75,17 @@ const Navigation = () => {
     };
   }, []);
 
+  const handleSettingsClick = (event: React.MouseEvent<HTMLElement>) => {
+    setSettingsMenu(event.currentTarget);
+  };
+
+  const handleSettingsClose = () => {
+    setSettingsMenu(null);
+  };
+
   const handleLanguageClick = (event: React.MouseEvent<HTMLElement>) => {
     setLanguageMenu(event.currentTarget);
+    handleSettingsClose();
   };
 
   const handleLanguageClose = () => {
@@ -81,76 +98,108 @@ const Navigation = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+    <AppBar 
+      position="fixed" 
+      sx={{
+        width: '100%',
+        top: 0,
+        left: 0,
+        bgcolor: muiTheme.palette.background.paper,
+      }}
+    >
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <IconButton 
+          color="inherit" 
+          onClick={() => navigate('/')}
+          sx={{ p: 1 }}
+        >
           <MonkIcon sx={{ fontSize: 32 }} />
+        </IconButton>
+
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 1,
+          flexGrow: 1,
+          justifyContent: 'center'
+        }}>
+          <Chip 
+            label={`${userXP} XP`}
+            color="secondary"
+            sx={{ 
+              mr: 2,
+              bgcolor: 'rgba(255, 255, 255, 0.15)',
+              color: 'white',
+              '& .MuiChip-label': {
+                fontWeight: 'bold'
+              }
+            }}
+          />
+
+          <Tooltip title={t('menu.learn')}>
+            <IconButton color="inherit" onClick={() => navigate('/learn')}>
+              <School />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title={t('menu.reference')}>
+            <IconButton color="inherit" onClick={() => navigate('/reference')}>
+              <MenuBook />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title={t('menu.leaderboard')}>
+            <IconButton color="inherit" onClick={() => navigate('/leaderboard')}>
+              <EmojiEvents />
+            </IconButton>
+          </Tooltip>
         </Box>
 
-        <Chip 
-          label={`${userXP} XP`}
-          color="secondary"
-          sx={{ 
-            mr: 2,
-            bgcolor: 'rgba(255, 255, 255, 0.15)',
-            color: 'white',
-            '& .MuiChip-label': {
-              fontWeight: 'bold'
-            }
-          }}
-        />
-
-        <Tooltip title={t('menu.home')}>
-          <IconButton color="inherit" onClick={() => navigate('/')}>
-            <Home />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title={t('menu.learn')}>
-          <IconButton color="inherit" onClick={() => navigate('/learn')}>
-            <School />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title={t('menu.reference')}>
-          <IconButton color="inherit" onClick={() => navigate('/reference')}>
-            <MenuBook />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title={t('menu.leaderboard')}>
-          <IconButton color="inherit" onClick={() => navigate('/leaderboard')}>
-            <EmojiEvents />
-          </IconButton>
-        </Tooltip>
-
-        <IconButton color="inherit" onClick={toggleTheme} sx={{ ml: 1 }}>
-          {isDarkMode ? <LightIcon /> : <DarkIcon />}
-        </IconButton>
-
-        <IconButton color="inherit" onClick={handleLanguageClick} sx={{ ml: 1 }}>
-          <LanguageIcon />
-        </IconButton>
-
-        <Tooltip title={t('menu.account')}>
+        <Tooltip title={t('menu.settings')}>
           <IconButton
             color="inherit"
-            onClick={() => navigate('/account')}
+            onClick={handleSettingsClick}
             sx={{ ml: 1 }}
           >
             <Settings />
           </IconButton>
         </Tooltip>
 
-        <Tooltip title={t('menu.logout')}>
-          <IconButton
-            color="inherit"
-            onClick={logout}
-            sx={{ ml: 1 }}
-          >
-            <Logout />
-          </IconButton>
-        </Tooltip>
+        <Menu
+          anchorEl={settingsMenu}
+          open={Boolean(settingsMenu)}
+          onClose={handleSettingsClose}
+        >
+          <MenuItem onClick={toggleTheme}>
+            <ListItemIcon>
+              {isDarkMode ? <LightIcon /> : <DarkIcon />}
+            </ListItemIcon>
+            <ListItemText primary={t('settings.theme')} />
+          </MenuItem>
+
+          <MenuItem onClick={handleLanguageClick}>
+            <ListItemIcon>
+              <LanguageIcon />
+            </ListItemIcon>
+            <ListItemText primary={t('settings.language')} />
+          </MenuItem>
+
+          <Divider />
+
+          <MenuItem onClick={() => { navigate('/account'); handleSettingsClose(); }}>
+            <ListItemIcon>
+              <Settings />
+            </ListItemIcon>
+            <ListItemText primary={t('menu.account')} />
+          </MenuItem>
+
+          <MenuItem onClick={logout}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            <ListItemText primary={t('menu.logout')} />
+          </MenuItem>
+        </Menu>
 
         <Menu
           anchorEl={languageMenu}

@@ -47,7 +47,14 @@ function AppContent() {
       <Box sx={{ flexGrow: 1 }}>
         {user && <Navigation />}
         
-        <Container maxWidth="lg" sx={{ mt: 4 }}>
+        <Container 
+          maxWidth="lg" 
+          sx={{ 
+            mt: user ? '84px' : 4,
+            p: 2,
+            minHeight: '100vh'
+          }}
+        >
           <Routes>
             {/* Routes publiques */}
             <Route path="/login" element={

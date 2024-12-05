@@ -36,18 +36,8 @@ const Learn: React.FC = () => {
       possibleNumbers.push(i);
     }
 
-    if (possibleNumbers.length < EXERCISES_COUNT) {
-      throw new Error(`Pas assez de nombres disponibles pour ${EXERCISES_COUNT} exercices`);
-    }
-
-    for (let i = possibleNumbers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [possibleNumbers[i], possibleNumbers[j]] = [possibleNumbers[j], possibleNumbers[i]];
-    }
-
-    const selectedNumbers = possibleNumbers.slice(0, EXERCISES_COUNT);
-
-    selectedNumbers.forEach(num => {
+    for (let i = 0; i < EXERCISES_COUNT; i++) {
+      const num = possibleNumbers[Math.floor(Math.random() * possibleNumbers.length)];
       const position = getPosition(num);
       const displayNum = position === 'units' ? num : Math.floor(num / Math.pow(10, ['units', 'tens', 'hundreds', 'thousands'].indexOf(position)));
       
@@ -79,7 +69,7 @@ const Learn: React.FC = () => {
           };
       
       exercises.push(exercise);
-    });
+    }
 
     return exercises;
   };
