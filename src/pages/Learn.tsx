@@ -52,8 +52,8 @@ function generateExercises(min: number, max: number, count: number, step: number
             targetNumber: displayNum,
             position: position,
             translationParams: {
-              number: num,
-              position: `positions.${position}`
+              number: displayNum,
+              position: `positions.${position}.name`
             }
           };
       
@@ -71,8 +71,8 @@ const createLessons = (t: any): LessonLevel[] => [
     description: t('learn.lessons.basics1.description'),
     requiredLessonId: null,
     minXP: 0,
-    exercises: generateExercises(1, 9, 10),
-    xpReward: 100
+    xpReward: 100,
+    exercises: generateExercises(1, 9, 10, 1)
   },
   {
     id: 'basics-2',
@@ -80,8 +80,8 @@ const createLessons = (t: any): LessonLevel[] => [
     description: t('learn.lessons.basics2.description'),
     requiredLessonId: 'basics-1',
     minXP: 100,
-    exercises: generateExercises(10, 90, 10, 10),
-    xpReward: 150
+    xpReward: 200,
+    exercises: generateExercises(10, 90, 10, 10)
   },
   {
     id: 'basics-3',
@@ -89,8 +89,8 @@ const createLessons = (t: any): LessonLevel[] => [
     description: t('learn.lessons.basics3.description'),
     requiredLessonId: 'basics-2',
     minXP: 250,
-    exercises: generateExercises(11, 99, 10),
-    xpReward: 200
+    xpReward: 200,
+    exercises: generateExercises(11, 99, 10, 1)
   },
   {
     id: 'hundreds',
@@ -98,8 +98,8 @@ const createLessons = (t: any): LessonLevel[] => [
     description: t('learn.lessons.hundreds.description'),
     requiredLessonId: 'basics-3',
     minXP: 450,
-    exercises: generateExercises(100, 900, 10, 100),
-    xpReward: 250
+    xpReward: 250,
+    exercises: generateExercises(100, 900, 10, 100)
   },
   {
     id: 'thousands',
@@ -107,8 +107,8 @@ const createLessons = (t: any): LessonLevel[] => [
     description: t('learn.lessons.thousands.description'),
     requiredLessonId: 'hundreds',
     minXP: 700,
-    exercises: generateExercises(1000, 9000, 10, 1000),
-    xpReward: 300
+    xpReward: 300,
+    exercises: generateExercises(1000, 9000, 10, 1000)
   },
   {
     id: 'mastery',
@@ -116,8 +116,8 @@ const createLessons = (t: any): LessonLevel[] => [
     description: t('learn.lessons.mastery.description'),
     requiredLessonId: 'thousands',
     minXP: 1000,
-    exercises: generateExercises(1, 9999, 10),
-    xpReward: 500
+    xpReward: 500,
+    exercises: generateExercises(1, 9999, 10, 1)
   }
 ];
 

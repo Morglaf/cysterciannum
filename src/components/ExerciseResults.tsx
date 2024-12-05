@@ -85,7 +85,7 @@ const ExerciseResults: React.FC<ExerciseResultsProps> = ({
             gap: 1
           }}
         >
-          +{xpEarned} XP
+          +{Math.round(xpEarned)} XP
         </Typography>
       </Box>
       
