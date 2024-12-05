@@ -22,6 +22,7 @@ const Learn: React.FC = () => {
     const exercises: Exercise[] = [];
     let attempts = 0;
     const maxAttempts = 1000;
+    const EXERCISES_COUNT = 10;
 
     const getPosition = (num: number): 'units' | 'tens' | 'hundreds' | 'thousands' => {
       if (num < 10) return 'units';
@@ -35,12 +36,16 @@ const Learn: React.FC = () => {
       possibleNumbers.push(i);
     }
 
+    if (possibleNumbers.length < EXERCISES_COUNT) {
+      throw new Error(`Pas assez de nombres disponibles pour ${EXERCISES_COUNT} exercices`);
+    }
+
     for (let i = possibleNumbers.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [possibleNumbers[i], possibleNumbers[j]] = [possibleNumbers[j], possibleNumbers[i]];
     }
 
-    const selectedNumbers = possibleNumbers.slice(0, 10);
+    const selectedNumbers = possibleNumbers.slice(0, EXERCISES_COUNT);
 
     selectedNumbers.forEach(num => {
       const position = getPosition(num);
@@ -283,11 +288,39 @@ const Learn: React.FC = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h5" gutterBottom>
-        {currentLesson.title} - {t('learn.progress.exercise', { 
-          current: currentExerciseIndex + 1,
-          total: currentLesson.exercises.length 
-        })}
+        {currentLesson.title}
       </Typography>
+      
+      <Box sx={{ 
+        width: '100%', 
+        height: 10, 
+        bgcolor: 'grey.300',
+        borderRadius: 5,
+        mb: 3,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <Box sx={{ 
+          width: `${((currentExerciseIndex + 1) / currentLesson.exercises.length) * 100}%`,
+          height: '100%',
+          bgcolor: 'primary.main',
+          borderRadius: 5,
+          transition: 'width 0.3s ease'
+        }} />
+        <Typography 
+          sx={{ 
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            color: 'text.primary',
+            fontSize: '0.75rem',
+            fontWeight: 'bold'
+          }}
+        >
+          {currentExerciseIndex + 1}/{currentLesson.exercises.length}
+        </Typography>
+      </Box>
 
       {currentExercise.type === 'qcm' ? (
         <MultipleChoice
