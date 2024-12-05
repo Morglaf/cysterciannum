@@ -37,6 +37,97 @@ app.use(cors({
 
 app.use(express.json());
 
+// Routes d'authentification
+const users = new Map(); // Stockage temporaire des utilisateurs
+const tokens = new Map(); // Stockage temporaire des tokens
+
+app.post('/auth/register', (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email et mot de passe requis' });
+    }
+
+    if (users.has(email)) {
+      return res.status(400).json({ message: 'Cet email est déjà utilisé' });
+    }
+
+    // Créer un nouvel utilisateur
+    const userId = Date.now().toString();
+    users.set(email, { id: userId, email, password });
+
+    // Créer un token
+    const token = Math.random().toString(36).substring(2);
+    tokens.set(token, userId);
+
+    res.status(201).json({
+      token,
+      userId,
+      email
+    });
+  } catch (error) {
+    console.error('Register error:', error);
+    res.status(500).json({ message: 'Erreur lors de l\'inscription' });
+  }
+});
+
+app.post('/auth/login', (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email et mot de passe requis' });
+    }
+
+    const user = users.get(email);
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+    }
+
+    // Créer un token
+    const token = Math.random().toString(36).substring(2);
+    tokens.set(token, user.id);
+
+    res.json({
+      token,
+      userId: user.id,
+      email: user.email
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ message: 'Erreur lors de la connexion' });
+  }
+});
+
+app.get('/auth/validate', (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      return res.status(401).json({ message: 'Token manquant' });
+    }
+
+    const userId = tokens.get(token);
+    if (!userId) {
+      return res.status(401).json({ message: 'Token invalide' });
+    }
+
+    const user = Array.from(users.values()).find(u => u.id === userId);
+    if (!user) {
+      return res.status(401).json({ message: 'Utilisateur non trouvé' });
+    }
+
+    res.json({
+      userId: user.id,
+      email: user.email
+    });
+  } catch (error) {
+    console.error('Validate error:', error);
+    res.status(500).json({ message: 'Erreur lors de la validation du token' });
+  }
+});
+
 // Servir les fichiers statiques
 app.use(express.static('.'));
 
