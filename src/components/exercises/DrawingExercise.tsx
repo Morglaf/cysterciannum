@@ -186,6 +186,47 @@ const DrawingExercise = ({ exercise, onComplete }: DrawingExerciseProps) => {
     }
   };
 
+  const getTouchPosition = (touch: React.Touch): Point => {
+    if (!svgRef.current) return { x: 0, y: 0 };
+    const rect = svgRef.current.getBoundingClientRect();
+    const x = ((touch.clientX - rect.left) * 100) / rect.width;
+    const y = ((touch.clientY - rect.top) * 100) / rect.height;
+    return { x, y };
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<SVGSVGElement>) => {
+    if (!svgRef.current || isCompleted) return;
+    e.preventDefault(); // Empêcher le scroll
+    
+    const touch = e.touches[0];
+    const point = getTouchPosition(touch);
+    const snappedPoint = findNearestSnapPoint(point);
+    setIsDrawing(true);
+    setCurrentPath(`M ${snappedPoint.x} ${snappedPoint.y}`);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<SVGSVGElement>) => {
+    if (!isDrawing || !svgRef.current || isCompleted || !currentPath) return;
+    e.preventDefault(); // Empêcher le scroll
+    
+    const touch = e.touches[0];
+    const point = getTouchPosition(touch);
+    const snappedPoint = findNearestSnapPoint(point);
+    
+    if (calculateDistance(point, snappedPoint) <= 15) {
+      const [, startX, startY] = currentPath.split(' ');
+      setCurrentPath(`M ${startX} ${startY} L ${snappedPoint.x} ${snappedPoint.y}`);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (isDrawing && currentPath && currentPath.includes('L')) {
+      setPaths(prev => [...prev, currentPath]);
+    }
+    setCurrentPath('');
+    setIsDrawing(false);
+  };
+
   return (
     <Box sx={{ maxWidth: 600, mx: 'auto', p: 3 }}>
       <Typography variant="h6" gutterBottom>
@@ -197,7 +238,8 @@ const DrawingExercise = ({ exercise, onComplete }: DrawingExerciseProps) => {
         sx={{ 
           p: 2, 
           mt: 2, 
-          bgcolor: theme.palette.mode === 'dark' ? 'background.paper' : 'white'
+          bgcolor: theme.palette.mode === 'dark' ? 'background.paper' : 'white',
+          touchAction: 'none' // Empêcher le zoom et le scroll sur mobile
         }}
       >
         <Box
@@ -210,8 +252,13 @@ const DrawingExercise = ({ exercise, onComplete }: DrawingExerciseProps) => {
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onTouchCancel={handleTouchEnd}
           sx={{
             cursor: isCompleted ? 'default' : 'crosshair',
+            touchAction: 'none', // Empêcher le zoom et le scroll sur mobile
             '& path.grid': {
               stroke: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#e0e0e0',
               strokeWidth: 0.5,
