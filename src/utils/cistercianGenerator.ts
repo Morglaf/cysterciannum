@@ -1,4 +1,40 @@
-import { Point } from '../types/cistercian';
+const BASE_SIZE = 100;
+
+export interface Point {
+  x: number;
+  y: number;
+}
+
+const generatePath = (points: Point[]): string => {
+  return points.reduce((path, point, index) => {
+    return path + `${index === 0 ? 'M' : 'L'} ${point.x},${point.y} `;
+  }, '');
+};
+
+export function getDigitDescription(digit: number): string {
+  switch (digit) {
+    case 1:
+      return "Un simple trait horizontal tout en haut";
+    case 2:
+      return "Un simple trait horizontal en bas";
+    case 3:
+      return "Une diagonale du haut vers le bas";
+    case 4:
+      return "Une diagonale du bas vers le haut";
+    case 5:
+      return "Superposition du 1 et du 4";
+    case 6:
+      return "Un trait vertical espacé de l'axe central";
+    case 7:
+      return "Superposition du 1 et du 6";
+    case 8:
+      return "Superposition du 2 et du 6";
+    case 9:
+      return "Superposition du 1, 2 et 6";
+    default:
+      return "";
+  }
+}
 
 export function generateCistercianNumber(number: number): string[] {
   const paths: string[] = [];
@@ -90,29 +126,4 @@ export function generateDigit(digit: number, position: 'units' | 'tens' | 'hundr
   }
 
   return paths;
-}
-
-export function getDigitDescription(digit: number): string {
-  switch (digit) {
-    case 1:
-      return "Un simple trait horizontal tout en haut";
-    case 2:
-      return "Un simple trait horizontal en bas";
-    case 3:
-      return "Une diagonale du haut vers le bas";
-    case 4:
-      return "Une diagonale du bas vers le haut";
-    case 5:
-      return "Superposition du 1 et du 4";
-    case 6:
-      return "Un trait vertical espacé de l'axe central";
-    case 7:
-      return "Superposition du 1 et du 6";
-    case 8:
-      return "Superposition du 2 et du 6";
-    case 9:
-      return "Superposition du 1, 2 et 6";
-    default:
-      return "";
-  }
 } 

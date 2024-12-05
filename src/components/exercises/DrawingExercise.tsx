@@ -1,8 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { Box, Typography, Button, Paper, Alert, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import type { Exercise, Point } from '../../types/cistercian';
+import type { Exercise } from '../../types/cistercian';
 import { generateDigit } from '../../utils/cistercianGenerator';
+
+interface Point {
+  x: number;
+  y: number;
+}
 
 interface DrawingExerciseProps {
   exercise: Exercise;

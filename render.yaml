@@ -2,10 +2,15 @@ services:
   - type: web
     name: cysterciannum
     env: node
-    buildCommand: npm install && npm run build
-    startCommand: node server.js
+    buildCommand: NODE_OPTIONS=--max-old-space-size=2048 npm install && npm run build
+    startCommand: npm start
     envVars:
       - key: NODE_VERSION
         value: 18.0.0
+      - key: PORT
+        value: 10000
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=2048
     healthCheckPath: /
-    autoDeploy: true 
+    autoDeploy: true
+    plan: free 
