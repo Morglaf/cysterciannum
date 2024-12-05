@@ -31,10 +31,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     try {
-      // TODO: Appeler l'API de login
-      const token = 'fake-token';
-      localStorage.setItem('token', token);
-      setUser({ id: '1', email });
+      // Appeler l'API de login
+      const response = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+      setUser({ id: data.userId, email });
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -43,10 +55,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register = async (email: string, password: string) => {
     try {
-      // TODO: Appeler l'API d'inscription
-      const token = 'fake-token';
-      localStorage.setItem('token', token);
-      setUser({ id: '1', email });
+      // Appeler l'API d'inscription
+      const response = await fetch('http://localhost:3000/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Registration failed');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+      setUser({ id: data.userId, email });
     } catch (error) {
       console.error('Register error:', error);
       throw error;
