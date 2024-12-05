@@ -203,10 +203,10 @@
       "number": "Number"
     },
     "positions": {
-      "units": "Units ({{value}}): Top right",
-      "tens": "Tens ({{value}}): Top left",
-      "hundreds": "Hundreds ({{value}}): Bottom right",
-      "thousands": "Thousands ({{value}}): Bottom left"
+      "units": "Units ({{value}})",
+      "tens": "Tens ({{value}}0)",
+      "hundreds": "Hundreds ({{value}}00)",
+      "thousands": "Thousands ({{value}}000)"
     },
     "rules": {
       "title": "Reading Rules",

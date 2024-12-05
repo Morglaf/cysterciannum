@@ -3,6 +3,7 @@ import { Box, Typography, Button, Paper, Alert, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../../types/cistercian';
 import { generateDigit } from '../../utils/cistercianGenerator';
+import { soundManager } from '../../services/sounds';
 
 interface Point {
   x: number;
@@ -171,8 +172,10 @@ const DrawingExercise = ({ exercise, onComplete }: DrawingExerciseProps) => {
     setIsCorrect(result);
     
     if (result) {
+      soundManager.playSound('correct');
       onComplete(true);
     } else {
+      soundManager.playSound('incorrect');
       setShowCorrectAnswer(true);
       setIsCompleted(false);
     }

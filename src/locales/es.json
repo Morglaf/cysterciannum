@@ -150,10 +150,10 @@
       "number": "Número"
     },
     "positions": {
-      "units": "Unidades ({{value}}): Arriba a la derecha",
-      "tens": "Decenas ({{value}}): Arriba a la izquierda",
-      "hundreds": "Centenas ({{value}}): Abajo a la derecha",
-      "thousands": "Millares ({{value}}): Abajo a la izquierda"
+      "units": "Unidades ({{value}})",
+      "tens": "Decenas ({{value}}0)",
+      "hundreds": "Centenas ({{value}}00)",
+      "thousands": "Millares ({{value}}000)"
     },
     "rules": {
       "title": "Reglas de lectura",
