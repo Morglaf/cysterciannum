@@ -25,7 +25,7 @@ export type Exercise = {
   position?: 'units' | 'tens' | 'hundreds' | 'thousands';  // Position pour les exercices de dessin
   translationParams?: {
     number: number;
-    position: string;
+    position?: string;
   };
 };
 

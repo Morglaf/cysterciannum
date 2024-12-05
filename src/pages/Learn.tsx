@@ -63,8 +63,7 @@ const Learn: React.FC = () => {
             targetNumber: displayNum,
             position: position,
             translationParams: {
-              number: position === 'units' ? displayNum : displayNum * Math.pow(10, ['units', 'tens', 'hundreds', 'thousands'].indexOf(position)),
-              position: t(`reference.positions.${position}`, { value: displayNum })
+              number: displayNum
             }
           };
       
