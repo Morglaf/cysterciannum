@@ -2,10 +2,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 
+const base = '/cysterciannum/'
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/cysterciannum/',
+  base,
   build: {
     outDir: 'dist',
     sourcemap: false,
@@ -29,6 +31,6 @@ export default defineConfig({
   },
   define: {
     'process.env': {},
-    '%PUBLIC_URL%': '"/cysterciannum"'
+    '__BASE_URL__': JSON.stringify(base)
   }
 });
