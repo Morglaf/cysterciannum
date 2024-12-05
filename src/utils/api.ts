@@ -6,10 +6,12 @@ export const api = {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
-      }
+      },
+      credentials: 'include'
     });
     if (!response.ok) {
-      throw new Error('API Error');
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'API Error');
     }
     return response.json();
   },
@@ -21,10 +23,12 @@ export const api = {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify(data)
     });
     if (!response.ok) {
-      throw new Error('API Error');
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'API Error');
     }
     return response.json();
   },
@@ -36,10 +40,12 @@ export const api = {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify(data)
     });
     if (!response.ok) {
-      throw new Error('API Error');
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'API Error');
     }
     return response.json();
   },
@@ -50,10 +56,12 @@ export const api = {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
-      }
+      },
+      credentials: 'include'
     });
     if (!response.ok) {
-      throw new Error('API Error');
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'API Error');
     }
     return response.json();
   }
