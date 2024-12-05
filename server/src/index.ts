@@ -377,7 +377,7 @@ app.post('/user/progress/reset', auth, async (req: any, res) => {
 });
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur le port ${PORT}`);
 });

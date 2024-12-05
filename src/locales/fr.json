@@ -83,7 +83,13 @@
     "exercises": {
       "whatNumber": "Quel nombre est représenté ?",
       "drawNumber": "Dessinez le nombre {{number}} ({{position}})",
-      "identify": "Identifiez le nombre"
+      "identify": "Identifiez le nombre",
+      "buttons": {
+        "clear": "Effacer",
+        "validate": "Valider",
+        "next": "Suivant",
+        "quit": "Quitter"
+      }
     }
   },
   "positions": {
@@ -106,5 +112,58 @@
     "updateEmail": "Mettre à jour l'email",
     "deleteAccount": "Supprimer le compte",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+  },
+  "reference": {
+    "title": "Guide de référence",
+    "introduction": "Les nombres cisterciens sont un système de notation numérique...",
+    "examples": "Exemples",
+    "rules": {
+      "title": "Règles de lecture",
+      "introduction": "Pour lire un nombre cistercien, suivez ces étapes :",
+      "step1": "1. Le nombre est construit autour d'une ligne verticale centrale",
+      "step2": "2. Les chiffres sont placés dans quatre quadrants :",
+      "step3": "3. Chaque chiffre est une combinaison de lignes simples",
+      "step4": "4. Les lignes se lisent de la même manière dans chaque quadrant mais sont orientées différemment",
+      "positions": {
+        "tens": "En haut à gauche : Dizaines (10-90)",
+        "units": "En haut à droite : Unités (1-9)",
+        "thousands": "En bas à gauche : Milliers (1000-9000)",
+        "hundreds": "En bas à droite : Centaines (100-900)"
+      }
+    },
+    "numbers": {
+      "1": {
+        "description": "Une ligne horizontale simple en haut"
+      },
+      "2": {
+        "description": "Une ligne horizontale simple en bas"
+      },
+      "3": {
+        "description": "Une ligne diagonale de haut en bas"
+      },
+      "4": {
+        "description": "Une ligne diagonale de bas en haut"
+      },
+      "5": {
+        "description": "Combinaison de 1 et 4"
+      },
+      "6": {
+        "description": "Une ligne verticale espacée de l'axe central"
+      },
+      "7": {
+        "description": "Combinaison de 1 et 6"
+      },
+      "8": {
+        "description": "Combinaison de 2 et 6"
+      },
+      "9": {
+        "description": "Combinaison de 1, 2 et 6"
+      }
+    },
+    "generator": {
+      "title": "Générateur de nombres",
+      "input": "Entrez un nombre (0-9999)",
+      "number": "Nombre"
+    }
   }
 } 

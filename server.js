@@ -2,12 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { PrismaClient } from '@prisma/client';
+import * as bcryptjs from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
+const prisma = new PrismaClient();
 const PORT = process.env.PORT || 10000;
+const JWT_SECRET = process.env.JWT_SECRET || 'votre-secret-jwt-super-secret';
 
 const allowedOrigins = [
   'http://localhost:3000',
@@ -20,10 +25,7 @@ const allowedOrigins = [
 // Configuration CORS
 app.use(cors({
   origin: function(origin, callback) {
-    // Permettre les requêtes sans origine (comme les appels API directs)
     if (!origin) return callback(null, true);
-    
-    // Vérifier si l'origine est autorisée
     if (allowedOrigins.some(allowedOrigin => origin.startsWith(allowedOrigin))) {
       callback(null, true);
     } else {
@@ -37,35 +39,39 @@ app.use(cors({
 
 app.use(express.json());
 
-// Stockage temporaire
-const users = new Map(); // Stockage des utilisateurs
-const tokens = new Map(); // Stockage des tokens
-const userProgress = new Map(); // Stockage de la progression des utilisateurs
-
 // Middleware d'authentification
-const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  
-  if (!token) {
-    return res.status(401).json({ message: 'Token manquant' });
-  }
+const auth = async (req, res, next) => {
+  try {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (!token) throw new Error();
 
-  const userId = tokens.get(token);
-  if (!userId) {
-    return res.status(401).json({ message: 'Token invalide' });
-  }
+    const session = await prisma.session.findUnique({
+      where: { token }
+    });
 
-  const user = Array.from(users.values()).find(u => u.id === userId);
-  if (!user) {
-    return res.status(401).json({ message: 'Utilisateur non trouvé' });
-  }
+    if (!session || new Date() > session.expiresAt) {
+      throw new Error();
+    }
 
-  req.user = user;
-  next();
+    const user = await prisma.user.findUnique({
+      where: { id: session.userId },
+      include: { progress: true }
+    });
+
+    if (!user) {
+      throw new Error();
+    }
+
+    req.user = user;
+    req.token = token;
+    next();
+  } catch (error) {
+    res.status(401).send({ error: 'Veuillez vous authentifier.' });
+  }
 };
 
 // Routes d'authentification
-app.post('/auth/register', (req, res) => {
+app.post('/auth/register', async (req, res) => {
   try {
     const { email, password } = req.body;
     
@@ -73,23 +79,50 @@ app.post('/auth/register', (req, res) => {
       return res.status(400).json({ message: 'Email et mot de passe requis' });
     }
 
-    if (users.has(email)) {
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
+    });
+
+    if (existingUser) {
       return res.status(400).json({ message: 'Cet email est déjà utilisé' });
     }
 
-    // Créer un nouvel utilisateur
-    const userId = Date.now().toString();
-    users.set(email, { id: userId, email, password });
-    userProgress.set(userId, { xp: 0, completedLessons: [] });
+    const hashedPassword = await bcryptjs.hash(password, 10);
+    const user = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        progress: {
+          create: {
+            xp: 0,
+            level: 'Novice',
+            streakDays: 0
+          }
+        }
+      },
+      include: {
+        progress: true
+      }
+    });
 
-    // Créer un token
-    const token = Math.random().toString(36).substring(2);
-    tokens.set(token, userId);
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
+
+    await prisma.session.create({
+      data: {
+        token,
+        userId: user.id,
+        expiresAt
+      }
+    });
 
     res.status(201).json({
       token,
-      userId,
-      email
+      user: {
+        id: user.id,
+        email: user.email
+      }
     });
   } catch (error) {
     console.error('Register error:', error);
@@ -97,7 +130,7 @@ app.post('/auth/register', (req, res) => {
   }
 });
 
-app.post('/auth/login', (req, res) => {
+app.post('/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -105,19 +138,40 @@ app.post('/auth/login', (req, res) => {
       return res.status(400).json({ message: 'Email et mot de passe requis' });
     }
 
-    const user = users.get(email);
-    if (!user || user.password !== password) {
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        progress: true
+      }
+    });
+
+    if (!user) {
       return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
     }
 
-    // Créer un token
-    const token = Math.random().toString(36).substring(2);
-    tokens.set(token, user.id);
+    const isValidPassword = await bcryptjs.compare(password, user.password);
+    if (!isValidPassword) {
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+    }
+
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
+
+    await prisma.session.create({
+      data: {
+        token,
+        userId: user.id,
+        expiresAt
+      }
+    });
 
     res.json({
       token,
-      userId: user.id,
-      email: user.email
+      user: {
+        id: user.id,
+        email: user.email
+      }
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -125,7 +179,7 @@ app.post('/auth/login', (req, res) => {
   }
 });
 
-app.get('/auth/validate', authenticateToken, (req, res) => {
+app.get('/auth/validate', auth, (req, res) => {
   res.json({
     userId: req.user.id,
     email: req.user.email
@@ -133,9 +187,24 @@ app.get('/auth/validate', authenticateToken, (req, res) => {
 });
 
 // Routes de progression
-app.get('/user/progress', authenticateToken, (req, res) => {
+app.get('/user/progress', auth, async (req, res) => {
   try {
-    const progress = userProgress.get(req.user.id) || { xp: 0, completedLessons: [] };
+    const progress = await prisma.progress.findUnique({
+      where: { userId: req.user.id }
+    });
+
+    if (!progress) {
+      const newProgress = await prisma.progress.create({
+        data: {
+          userId: req.user.id,
+          xp: 0,
+          level: 'Novice',
+          streakDays: 0
+        }
+      });
+      return res.json(newProgress);
+    }
+
     res.json(progress);
   } catch (error) {
     console.error('Progress error:', error);
@@ -143,12 +212,28 @@ app.get('/user/progress', authenticateToken, (req, res) => {
   }
 });
 
-app.post('/user/progress/xp', authenticateToken, (req, res) => {
+app.post('/user/progress/xp', auth, async (req, res) => {
   try {
     const { xpGained } = req.body;
-    const progress = userProgress.get(req.user.id) || { xp: 0, completedLessons: [] };
-    progress.xp += xpGained;
-    userProgress.set(req.user.id, progress);
+    const currentProgress = await prisma.progress.findUnique({
+      where: { userId: req.user.id }
+    });
+
+    if (!currentProgress) {
+      return res.status(404).json({ error: 'Progression non trouvée' });
+    }
+
+    const newXP = currentProgress.xp + xpGained;
+    const newLevel = calculateLevel(newXP);
+
+    const progress = await prisma.progress.update({
+      where: { userId: req.user.id },
+      data: {
+        xp: newXP,
+        level: newLevel
+      }
+    });
+
     res.json(progress);
   } catch (error) {
     console.error('XP update error:', error);
@@ -156,37 +241,87 @@ app.post('/user/progress/xp', authenticateToken, (req, res) => {
   }
 });
 
-app.post('/user/progress/lesson', authenticateToken, (req, res) => {
-  try {
-    const { lessonId } = req.body;
-    const progress = userProgress.get(req.user.id) || { xp: 0, completedLessons: [] };
-    if (!progress.completedLessons.includes(lessonId)) {
-      progress.completedLessons.push(lessonId);
-    }
-    userProgress.set(req.user.id, progress);
-    res.json(progress);
-  } catch (error) {
-    console.error('Lesson completion error:', error);
-    res.status(500).json({ message: 'Erreur lors de la mise à jour de la leçon' });
-  }
-});
+// Fonction pour calculer le niveau
+function calculateLevel(xp) {
+  if (xp < 100) return 'Novice';
+  if (xp < 300) return 'Apprenti';
+  if (xp < 600) return 'Adepte';
+  if (xp < 1000) return 'Expert';
+  return 'Maître';
+}
 
 // Route du leaderboard
-app.get('/leaderboard', (req, res) => {
+app.get('/leaderboard', auth, async (req, res) => {
   try {
-    const leaderboard = Array.from(userProgress.entries())
-      .map(([userId, progress]) => {
-        const user = Array.from(users.values()).find(u => u.id === userId);
-        return {
-          userId,
-          email: user?.email,
-          xp: progress.xp
-        };
-      })
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 10);
+    const users = await prisma.user.findMany({
+      include: {
+        progress: true
+      },
+      orderBy: {
+        progress: {
+          xp: 'desc'
+        }
+      },
+      take: 10
+    });
 
-    res.json(leaderboard);
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    
+    const weeklyUsers = await prisma.user.findMany({
+      where: {
+        progress: {
+          lastLoginDate: {
+            gte: oneWeekAgo
+          }
+        }
+      },
+      include: {
+        progress: true
+      },
+      orderBy: {
+        progress: {
+          xp: 'desc'
+        }
+      },
+      take: 10
+    });
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const dailyUsers = await prisma.user.findMany({
+      where: {
+        progress: {
+          lastLoginDate: {
+            gte: today
+          }
+        }
+      },
+      include: {
+        progress: true
+      },
+      orderBy: {
+        progress: {
+          xp: 'desc'
+        }
+      },
+      take: 10
+    });
+
+    const formatUsers = (users) => users.map(user => ({
+      userId: user.id,
+      username: user.username || 'Anonyme',
+      xp: user.progress?.xp || 0,
+      level: user.progress?.level || 'Novice',
+      streakDays: user.progress?.streakDays || 0
+    }));
+
+    res.json({
+      allTime: formatUsers(users),
+      weekly: formatUsers(weeklyUsers),
+      daily: formatUsers(dailyUsers)
+    });
   } catch (error) {
     console.error('Leaderboard error:', error);
     res.status(500).json({ message: 'Erreur lors de la récupération du classement' });
