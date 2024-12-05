@@ -211,22 +211,10 @@
       "number": "Nombre"
     },
     "positions": {
-      "units": {
-        "name": "unités",
-        "description": "Position des unités (1-9)"
-      },
-      "tens": {
-        "name": "dizaines",
-        "description": "Position des dizaines (10-90)"
-      },
-      "hundreds": {
-        "name": "centaines",
-        "description": "Position des centaines (100-900)"
-      },
-      "thousands": {
-        "name": "milliers",
-        "description": "Position des milliers (1000-9000)"
-      }
+      "units": "Unités ({{value}})",
+      "tens": "Dizaines ({{value}}0)",
+      "hundreds": "Centaines ({{value}}00)",
+      "thousands": "Milliers ({{value}}000)"
     },
     "rules": {
       "title": "Règles de Lecture",

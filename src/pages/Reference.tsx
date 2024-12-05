@@ -20,18 +20,23 @@ const Reference = () => {
   };
 
   return (
-    <Box sx={{ p: 4 }}>
+    <Box sx={{ p: { xs: 2, sm: 4 } }}>
       <Typography variant="h4" gutterBottom>
         {t('reference.title')}
       </Typography>
 
-      <Grid container spacing={3} sx={{ mb: 4 }}>
+      <Grid container spacing={2} sx={{ mb: 4 }}>
         {referenceNumbers.map(({ number, description }) => (
           <Grid item xs={12} sm={6} md={4} key={number}>
             <Paper sx={{ p: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <CistercianDisplay number={number} size={100} showGrid />
-                <Box>
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 2,
+                flexDirection: { xs: 'column', sm: 'row' }
+              }}>
+                <CistercianDisplay number={number} size={80} showGrid />
+                <Box sx={{ textAlign: { xs: 'center', sm: 'left' }, mt: { xs: 1, sm: 0 } }}>
                   <Typography variant="h6">
                     {number}
                   </Typography>
@@ -49,8 +54,8 @@ const Reference = () => {
         {t('reference.generator.title')}
       </Typography>
 
-      <Paper sx={{ p: 3 }}>
-        <Grid container spacing={3} alignItems="center">
+      <Paper sx={{ p: { xs: 2, sm: 3 } }}>
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} md={4}>
             <TextField
               label={t('reference.generator.input')}
@@ -65,9 +70,14 @@ const Reference = () => {
             />
           </Grid>
           <Grid item xs={12} md={8}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-              <CistercianDisplay number={customNumber} size={150} showGrid />
-              <Box>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 3,
+              flexDirection: { xs: 'column', sm: 'row' }
+            }}>
+              <CistercianDisplay number={customNumber} size={120} showGrid />
+              <Box sx={{ textAlign: { xs: 'center', sm: 'left' }, mt: { xs: 1, sm: 0 } }}>
                 <Typography variant="h6">
                   {t('reference.generator.number')}: {customNumber}
                 </Typography>
