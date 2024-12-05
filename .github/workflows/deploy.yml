@@ -24,13 +24,19 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm --version
+          node --version
+          npm ci --legacy-peer-deps
 
       - name: Build
-        run: npm run build:pages
+        run: |
+          npm run build:pages
+          ls -la dist/
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_AUTH_DOMAIN: ${{ secrets.VITE_AUTH_DOMAIN }}
+          CI: false
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
