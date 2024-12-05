@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "NODE_OPTIONS=--max-old-space-size=2048 tsc && vite build",
-    "start": "node --max-old-space-size=2048 server.js",
+    "build": "NODE_OPTIONS=--max-old-space-size=2048 tsc && vite build && cp server.js dist/",
+    "start": "cd dist && node --max-old-space-size=2048 server.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -15,6 +15,8 @@
     "@emotion/styled": "^11.13.5",
     "@mui/icons-material": "^6.1.9",
     "@mui/material": "^6.1.10",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
     "firebase": "^11.0.2",
     "i18next": "^24.0.5",
     "react": "^18.3.1",
