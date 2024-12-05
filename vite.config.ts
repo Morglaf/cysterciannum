@@ -33,7 +33,12 @@ export default defineConfig(({ mode }) => {
       }
     },
     server: {
-      port: 3000
+      port: 5173,
+      host: true,
+      strictPort: true,
+      headers: {
+        'Content-Security-Policy': "default-src 'self' 'unsafe-inline' 'unsafe-eval' http://localhost:* https://*.github.io https://*.onrender.com; img-src 'self' data: https:; connect-src 'self' http://localhost:* https://*.github.io https://*.onrender.com"
+      }
     }
   };
 });

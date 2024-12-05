@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
   'http://localhost:3000',
@@ -38,9 +38,9 @@ app.use(cors({
 app.use(express.json());
 
 // Stockage temporaire
-const users = new Map(); // Stockage des utilisateurs
-const tokens = new Map(); // Stockage des tokens
-const userProgress = new Map(); // Stockage de la progression des utilisateurs
+const users = new Map();
+const tokens = new Map();
+const userProgress = new Map();
 
 // Middleware d'authentification
 const authenticateToken = (req, res, next) => {
@@ -77,12 +77,10 @@ app.post('/auth/register', (req, res) => {
       return res.status(400).json({ message: 'Cet email est déjà utilisé' });
     }
 
-    // Créer un nouvel utilisateur
     const userId = Date.now().toString();
     users.set(email, { id: userId, email, password });
     userProgress.set(userId, { xp: 0, completedLessons: [] });
 
-    // Créer un token
     const token = Math.random().toString(36).substring(2);
     tokens.set(token, userId);
 
@@ -110,7 +108,6 @@ app.post('/auth/login', (req, res) => {
       return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
     }
 
-    // Créer un token
     const token = Math.random().toString(36).substring(2);
     tokens.set(token, user.id);
 
@@ -193,13 +190,18 @@ app.get('/leaderboard', (req, res) => {
   }
 });
 
-// Servir les fichiers statiques
-app.use(express.static('.'));
-
-// Gérer toutes les routes pour l'application React
-app.get('*', (req, res) => {
-  res.sendFile(join(__dirname, 'index.html'));
-});
+// Servir les fichiers statiques en développement
+if (process.env.NODE_ENV !== 'production') {
+  app.use(express.static('dist'));
+  app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, 'dist', 'index.html'));
+  });
+} else {
+  // En production, servir uniquement l'API
+  app.get('/', (req, res) => {
+    res.json({ message: 'API CystercianNum' });
+  });
+}
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
