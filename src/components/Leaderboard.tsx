@@ -120,7 +120,7 @@ const Leaderboard = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
   };
 

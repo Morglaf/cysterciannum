@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../../types/cistercian';
 import { generateDigit } from '../../utils/cistercianGenerator';
 
-interface DrawingExerciseProps {
-  exercise: Exercise;
-  onComplete: (success: boolean) => void;
-}
-
 interface Point {
   x: number;
   y: number;
+}
+
+interface DrawingExerciseProps {
+  exercise: Exercise;
+  onComplete: (success: boolean) => void;
 }
 
 const extractPoints = (path: string): { start: Point; end: Point } => {
