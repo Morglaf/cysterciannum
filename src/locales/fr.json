@@ -119,7 +119,7 @@
       "writeNumber": "Écrivez le nombre",
       "selectCorrectAnswer": "Sélectionnez la bonne réponse",
       "dragAndDrop": "Faites glisser les symboles au bon endroit",
-      "drawNumber": "Dessinez le nombre {{number}} ({{position}})",
+      "drawNumber": "Dessinez le nombre {{number}}",
       "whatNumber": "Quel nombre est représenté ?",
       "identify": "Identifiez le nombre",
       "buttons": {

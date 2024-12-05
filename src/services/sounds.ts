@@ -7,13 +7,15 @@ class SoundManager {
   }
 
   private initializeSounds() {
-    // Utiliser des fichiers locaux
+    const basePath = import.meta.env.DEV ? '' : '/cysterciannum';
+    
+    // Utiliser des fichiers locaux avec le bon chemin de base
     this.sounds = {
-      correct: new Audio('/sounds/correct.mp3'),
-      incorrect: new Audio('/sounds/incorrect.mp3'),
-      achievement: new Audio('/sounds/achievement.mp3'),
-      levelUp: new Audio('/sounds/level-up.mp3'),
-      click: new Audio('/sounds/click.mp3')
+      correct: new Audio(`${basePath}/sounds/correct.mp3`),
+      incorrect: new Audio(`${basePath}/sounds/incorrect.mp3`),
+      achievement: new Audio(`${basePath}/sounds/achievement.mp3`),
+      levelUp: new Audio(`${basePath}/sounds/level-up.mp3`),
+      click: new Audio(`${basePath}/sounds/click.mp3`)
     };
 
     // Précharger les sons
