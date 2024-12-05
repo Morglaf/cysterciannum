@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "NODE_OPTIONS=--max-old-space-size=2048 tsc && vite build && cp server.js dist/",
-    "start": "cd dist && node --max-old-space-size=2048 server.js",
+    "build": "tsc && vite build",
+    "build:pages": "tsc && vite build",
+    "build:render": "tsc && vite build && cp server.js dist/",
+    "start": "node server.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
