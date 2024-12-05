@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Box, CssBaseline, Container } from '@mui/material';
 import { ThemeProvider } from './utils/ThemeContext';
 import './App.css';
@@ -39,10 +39,9 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 
 function AppContent() {
   const { user } = useAuth();
-  const basename = import.meta.env.DEV ? '/' : '/cysterciannum';
 
   return (
-    <Router basename={basename}>
+    <Router>
       <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
         {user && <Navigation />}
